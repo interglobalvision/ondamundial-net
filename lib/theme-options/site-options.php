@@ -57,6 +57,12 @@ $metabox = array(
   		'type' => 'text_url',
   		'protocols' => array('http', 'https'), // Array of allowed protocols
   	),
+    array(
+  		'name' => esc_html__( 'Archivo Mixcloud URL', 'cmb2' ),
+  		'id'   => $prefix . 'mixcloud_url',
+  		'type' => 'text_url',
+  		'protocols' => array('http', 'https'), // Array of allowed protocols
+  	),
 
     // SOCIAL MEDIA
 
