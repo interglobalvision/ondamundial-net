@@ -21,11 +21,6 @@ $metabox = array(
       'type' => 'title',
     ),
     array(
-      'name' => __( 'En Vivo?', 'IGV' ),
-      'id'   => $prefix . 'radio_live',
-      'type' => 'checkbox',
-    ),
-    array(
       'name'    => __( 'Evento Actual/Siguente', 'IGV' ),
       'id'      => $prefix . 'radio_evento_current',
       'type'    => 'select',
