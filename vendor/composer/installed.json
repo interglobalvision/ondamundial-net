@@ -23,7 +23,7 @@
         "suggest": {
             "composer/installers": "~1.0"
         },
-        "time": "2017-02-27T15:05:31+00:00",
+        "time": "2017-02-27 15:05:31",
         "type": "wordpress-plugin",
         "installation-source": "dist",
         "notification-url": "https://packagist.org/downloads/",
@@ -67,7 +67,7 @@
         "require-dev": {
             "phpunit/phpunit": "4.2.*"
         },
-        "time": "2017-05-15T09:09:18+00:00",
+        "time": "2017-05-15 09:09:18",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
