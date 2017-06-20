@@ -2,8 +2,6 @@
 get_header();
 ?>
 
-<?php get_template_part('partials/demo'); ?>
-
 <main id="main-content">
   <section id="posts">
     <div class="container">
