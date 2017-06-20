@@ -1,0 +1,13 @@
+{
+  "name": "igv/igv",
+  "authors": [
+    {
+      "name": "interglobal.vision",
+      "email": "globie@interglobal.vision"
+    }
+  ],
+  "require": {
+    "webdevstudios/cmb2": "*",
+    "fightbulc/moment": "*"
+  }
+}
