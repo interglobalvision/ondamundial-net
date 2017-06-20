@@ -11,6 +11,55 @@ $metabox = array(
   'show_on'    => array( 'key' => 'options-page', 'value' => array( $page_key ), ), //value must be same as id
   'show_names' => true,
   'fields'     => array(
+
+    // LIVE SHOW
+
+    array(
+      'name' => __( 'Stream', 'cmb2' ),
+      'desc' => __( '', 'cmb2' ),
+      'id'   => $prefix . 'stream_title',
+      'type' => 'title',
+    ),
+    array(
+      'name' => __( 'En Vivo?', 'IGV' ),
+      'id'   => $prefix . 'radio_live',
+      'type' => 'checkbox',
+    ),
+    array(
+      'name'    => __( 'Evento Actual/Siguente', 'IGV' ),
+      'id'      => $prefix . 'radio_evento_current',
+      'type'    => 'select',
+      'show_option_none' => false,
+      'options' => get_post_objects(
+        array(
+          'post_type' => 'evento',
+          'meta_key' => '_igv_evento_start',
+          'order' => 'ASC',
+          'orderby' => 'meta_value',
+          'meta_query' => array(
+            array(
+              'key'     => '_igv_evento_start',
+        			'value'   => current_time('timestamp') - (60 * 60 * 6), // UTC -5, 6 hours ago
+        			'compare' => '>',
+            ),
+            array(
+              'key'     => '_igv_evento_start',
+        			'value'   => current_time('timestamp') + (60 * 60 * 24), // UTC -5, 24 hours later
+        			'compare' => '<',
+            )
+          )
+        )
+      )
+    ),
+    array(
+  		'name' => esc_html__( 'Radio.co URL', 'cmb2' ),
+  		'id'   => $prefix . 'radioco_url',
+  		'type' => 'text_url',
+  		'protocols' => array('http', 'https'), // Array of allowed protocols
+  	),
+
+    // SOCIAL MEDIA
+
     array(
       'name' => __( 'Social Media', 'cmb2' ),
       'desc' => __( 'urls and accounts for different social media platforms. For use in menus and metadata', 'cmb2' ),
@@ -63,7 +112,7 @@ $metabox = array(
       'type' => 'text',
     ),
 
-    // BOILER
+    // ANALYTICS
 
     array(
       'name' => __( 'Analytics', 'cmb2' ),
@@ -76,29 +125,6 @@ $metabox = array(
       'desc' => __( '(optional)', 'IGV' ),
       'id'   => $prefix . 'google_analytics_id',
       'type' => 'text',
-    ),
-
-    // BOILER
-
-    array(
-      'name' => __( 'Title for options section', 'cmb2' ),
-      'desc' => __( '', 'cmb2' ),
-      'id'   => $prefix . 'general_title',
-      'type' => 'title',
-    ),
-    array(
-      'name' => __( 'Test Text', 'IGV' ),
-      'desc' => __( 'field description (optional)', 'IGV' ),
-      'id'   => $prefix . 'test_text',
-      'type' => 'text',
-      'default' => 'Default Text',
-    ),
-    array(
-      'name'    => __( 'Test Color Picker', 'IGV' ),
-      'desc'    => __( 'field description (optional)', 'IGV' ),
-      'id'      => $prefix . 'test_colorpicker',
-      'type'    => 'colorpicker',
-      'default' => '#bada55',
     )
   )
 );
