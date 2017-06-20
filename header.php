@@ -23,18 +23,7 @@
   <?php wp_head(); ?>
 </head>
 
-<?php
-  $is_live = IGV_get_option('_igv_site_options', '_igv_radio_live');
-  $current_event_id = IGV_get_option('_igv_site_options', '_igv_radio_evento_current');
-  $event_image_id = get_post_thumbnail_id($current_event_id);
-?>
-
-<body <?php
-  body_class();
-
-  if ($is_live == 'on' && $event_image_id != null) {
-    $event_image_url = wp_get_attachment_image_src($event_image_id, 'site_bg');
-?> style="background-image: url('<?php echo $event_image_url; ?>')"> <?php } ?>>
+<body <?php body_class(); ?>>
 <!--[if lt IE 9]><p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p><![endif]-->
 
 <section id="main-container">
