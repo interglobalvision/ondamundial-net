@@ -39,5 +39,18 @@ function igv_cmb_metaboxes() {
    * Reference: https://github.com/WebDevStudios/CMB2/blob/master/example-functions.php
 	 */
 
+  $evento_meta = new_cmb2_box( array(
+    'id'            => $prefix . 'evento_metabox',
+    'title'         => esc_html__( 'Datos', 'cmb2' ),
+    'object_types'  => array( 'evento', ), // Post type
+  ) );
+
+  $evento_meta->add_field( array(
+    'name' => esc_html__( 'Fecha | Hora', 'cmb2' ),
+    'desc' => esc_html__( '(Requeridos)', 'cmb2' ),
+    'id'   => $prefix . 'evento_start',
+    'type' => 'text_datetime_timestamp',
+  ) );
+
 }
 ?>
