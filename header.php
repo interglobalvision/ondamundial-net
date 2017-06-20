@@ -81,8 +81,46 @@
 ?>
         </ul>
       </div>
-      <div class="grid-item mobile-only">
-        <div id="menu-toggle"></div>
+      <div id="overlay-toggle-holder" class="grid-item">
+        <div id="overlay-toggle"></div>
       </div>
+    </div>
+    <div id="mobile-menu" class="mobile-only page-overlay">
+      <nav>
+        <ul>
+          <li><a href="#" class="js-nav-page" data-nav="programacion">Programación</a></li>
+<?php
+  if (!empty($mixcloud_url)) {
+?>
+          <li><a href="<?php echo $mixcloud_url; ?>">Archivo</a></li>
+<?php
+  }
+?>
+          <li><a href="#" class="js-nav-page" data-nav="sobre">Sobre</a></li>
+          <li>
+            <ul>
+<?php
+  if (!empty($facebook_url)) {
+?>
+              <li><a href="<?php echo $facebook_url; ?>"><?php echo url_get_contents(get_template_directory_uri() . '/dist/img/social-facebook.svg'); ?></a></li>
+<?php
+  }
+
+  if (!empty($twitter_handle)) {
+?>
+              <li><a href="https://www.twitter.com/<?php echo $twitter_handle; ?>"><?php echo url_get_contents(get_template_directory_uri() . '/dist/img/social-twitter.svg'); ?></a></li>
+<?php
+  }
+
+  if (!empty($instagram_handle)) {
+?>
+              <li><a href="https://www.instagram.com/<?php echo $instagram_handle; ?>"><?php echo url_get_contents(get_template_directory_uri() . '/dist/img/social-instagram.svg'); ?></a></li>
+<?php
+  }
+?>
+            </ul>
+          </li>
+        </ul>
+      </nav>
     </div>
   </header>
