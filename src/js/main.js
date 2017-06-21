@@ -65,16 +65,23 @@ Site.StreamChecker = {
       _this.streamData = data.status;
 
       // Check if the stream is offline
-      if(data.status == 'offline') {
+      if (data.status == 'offline') {
 
         // Trigger the event
         _this.triggerEvent('streamoffline', data);
 
-      } else if(data.status === 'online')  {  // else  (stream is online)
+      } else if (data.status === 'online')  {  // else  (stream is online)
 
         // Trigger the event
         _this.triggerEvent('streamonline', data);
       }
+    })
+    .fail( function() {
+      // Trigger the event
+      _this.triggerEvent('streamoffline');
+
+      console.log('Radio.co seems to be unresponsive');
+
     });
 
   },
@@ -184,7 +191,7 @@ Site.Player = {
   play: function() {
     var _this = this;
 
-    if( _this.playerElement.networkState !== 3) {
+    if (_this.playerElement.networkState !== 3) {
 
       // Reset volume
       _this.playerElement.volume = 0;
