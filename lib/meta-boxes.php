@@ -47,7 +47,7 @@ function igv_cmb_metaboxes() {
 
   $evento_meta->add_field( array(
     'name' => esc_html__( 'Fecha | Hora', 'cmb2' ),
-    'desc' => esc_html__( 'UTC -5 (Requeridos) ', 'cmb2' ),
+    'desc' => esc_html__( 'en CDMX (Requeridos) ', 'cmb2' ),
     'id'   => $prefix . 'evento_start',
     'type' => 'text_datetime_timestamp',
   ) );
