@@ -9,7 +9,6 @@ get_header();
   </section>
 
   <section id="page-programacion" class="page-overlay">
-    <?php get_template_part('partials/programacion'); ?>
   </section>
 
 <?php
