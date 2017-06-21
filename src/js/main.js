@@ -67,10 +67,12 @@ Site.StreamChecker = {
       // Check if the stream is offline
       if(data.status == 'offline') {
 
+        // Trigger the event
         _this.triggerEvent('streamoffline', data);
 
       } else if(data.status === 'online')  {  // else  (stream is online)
 
+        // Trigger the event
         _this.triggerEvent('streamonline', data);
       }
     });
