@@ -65,7 +65,7 @@ Site.StreamChecker = {
       _this.streamData = data.status;
 
       // Check if the stream is offline
-      if (data.status == 'offline') {
+      if (data.status === 'offline') {
 
         // Trigger the event
         _this.triggerEvent('streamoffline', data);
