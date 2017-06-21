@@ -33,7 +33,7 @@ if( have_posts() ) {
     </div>
   </section>
 
-  <?php get_template_part('partials/pagination'); ?>
+  <?php get_template_part('partials/player'); ?>
 
 </main>
 

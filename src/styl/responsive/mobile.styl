@@ -1,0 +1,26 @@
+#offline-icon
+  display: inline-block
+
+#play-button,
+#pause-button
+  display: none
+
+#player-container
+
+  &.online
+    #offline-icon
+      display: none
+
+    #pause-button
+      display: none
+
+    #play-button
+      display: inline-block
+
+  &.playing
+    #pause-button
+      display: inline-block
+
+    #play-button
+      display: none
+
