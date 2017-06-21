@@ -111,8 +111,8 @@ Site.Player = {
     _this.playerContainer =  document.getElementById('player-container');
     _this.playerElement =  document.getElementById('player');
     _this.playerSrc =  document.getElementById('player-src');
-    _this.playButton =  document.getElementById('play-btn');
-    _this.pauseButton =  document.getElementById('pause-btn');
+    _this.playButton =  document.getElementById('play-button');
+    _this.pauseButton =  document.getElementById('pause-button');
     _this.streamStatusText =  document.getElementById('stream-status');
     _this.nowPlayingText =  document.getElementById('now-playing');
 
