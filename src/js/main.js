@@ -129,6 +129,10 @@ Site.Player = {
     _this.playButton.addEventListener('click', _this.play.bind(_this));
     _this.pauseButton.addEventListener('click', _this.pause.bind(_this));
 
+
+    // Calculate the volume increment
+    _this.volumeIncrement = 1 / (_this.fadeTime / 50);
+
   },
 
   handleOnlineStream: function(event) {
@@ -205,12 +209,9 @@ Site.Player = {
 
       _this.neverPlayed = false;
 
-      // Calculate the volume increment
-      var volumeIncrement = 1 / (_this.fadeTime / 50);
-
       // Fade in the volume
       var fadeInterval = setInterval( function() {
-        var newVolume = _this.playerElement.volume + volumeIncrement;
+        var newVolume = _this.playerElement.volume + _this.volumeIncrement;
 
         if (newVolume > 1) {
           newVolume = 1;
