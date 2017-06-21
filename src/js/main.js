@@ -102,7 +102,8 @@ Site.Player = {
     _this.playerContainer =  document.getElementById('player-container');
     _this.playerElement =  document.getElementById('player');
     _this.playerSrc =  document.getElementById('player-src');
-    _this.playerControl =  document.getElementById('player-control');
+    _this.playButton =  document.getElementById('play-btn');
+    _this.pauseButton =  document.getElementById('pause-btn');
     _this.streamStatusText =  document.getElementById('stream-status');
     _this.nowPlayingText =  document.getElementById('now-playing');
 
@@ -115,6 +116,10 @@ Site.Player = {
     document.addEventListener('streamonline', _this.handleOnlineStream);
     document.addEventListener('streamoffline', _this.handleOfflineStream);
 
+    // Subscribe to clic on player controls
+    _this.playButton.addEventListener('click', _this.play.bind(_this));
+    _this.pauseButton.addEventListener('click', _this.pause.bind(_this));
+
   },
 
   handleOnlineStream: function(event) {
@@ -122,6 +127,7 @@ Site.Player = {
 
     var data = event.detail;
 
+    // Add class `online` to the player container
     _this.playerContainer.classList.add('online');
 
     // Check if player src is empty
@@ -139,7 +145,9 @@ Site.Player = {
     // Update Now playing
     _this.nowPlayingText.innerHTML = data.current_track.title;
 
+    // If the player has never started playing
     if (_this.neverPlayed) {
+      // We subscribe to the `canplay` event from the player
       _this.playerElement.addEventListener('canplay', _this.handleCanPlay);
     }
   },
@@ -147,7 +155,10 @@ Site.Player = {
   handleCanPlay: function(event) {
     var _this = this;
 
+    // Play the audio element
     _this.play();
+
+    // Remove listener cuz it's only needed once
     event.target.removeEventListener(event.type, _this.handleCanPlay);
 
   },
@@ -155,6 +166,7 @@ Site.Player = {
   handleOfflineStream: function() {
     var _this = this;
 
+    // Remove `online` class from the player container
     _this.playerContainer.classList.remove('online');
 
     // Update marquee status
@@ -163,7 +175,7 @@ Site.Player = {
     // Update the marquee text
     _this.nowPlayingText.innerHTML = 'the upcoming show that has to be requested thru ajax';
 
-    // Pause the stream
+    // Pause the audio element
     _this.pause();
   },
 
@@ -171,19 +183,36 @@ Site.Player = {
     var _this = this;
 
     if( _this.playerElement.networkState !== 3) {
+
+      // Reset volume
       _this.playerElement.volume = 0;
 
+      // Play audio element
       _this.playerElement.play();
+
+      // Add `playing` class to player container
+      _this.playerContainer.classList.add('playing');
+
 
       _this.neverPlayed = false;
 
+      // Calculate the volume increment
       var volumeIncrement = 1 / (_this.fadeTime / 50);
-      var fadeInterval = setInterval( function() {
-        _this.playerElement.volume += volumeIncrement;
 
-        if (_this.playerElement.volume >= 1 - volumeIncrement) {
-          _this.playerElement.volume = 1;
+      // Fade in the volume
+      var fadeInterval = setInterval( function() {
+        var newVolume = _this.playerElement.volume + volumeIncrement;
+
+        if (newVolume > 1) {
+          newVolume = 1;
+        }
+
+        _this.playerElement.volume = newVolume;
+
+        if (_this.playerElement.volume >= 1) {
+          // Clear the interval
           clearInterval(fadeInterval);
+
         }
       }, 50);
     }
@@ -192,7 +221,11 @@ Site.Player = {
   pause: function() {
     var _this = this;
 
+    // Pause audio element
     _this.playerElement.pause();
+
+    // Remove `playing` class from the player container
+    _this.playerContainer.classList.remove('playing');
   },
 };
 
