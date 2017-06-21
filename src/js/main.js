@@ -11,10 +11,10 @@ Site = {
     });
 
     $(document).ready(function () {
-      Site.StreamChecker.init();
       Site.Player.init();
     });
 
+    Site.StreamChecker.init();
   },
 
   onResize: function() {
