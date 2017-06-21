@@ -22,11 +22,106 @@
   <?php } ?>
   <?php wp_head(); ?>
 </head>
+
 <body <?php body_class(); ?>>
 <!--[if lt IE 9]><p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p><![endif]-->
 
 <section id="main-container">
 
   <header id="header">
-    <h1><a href="<?php echo home_url(); ?>"><?php bloginfo('name'); ?></a></h1>
+    <div class="grid-row align-items-center">
+      <div class="grid-item">
+        <?php echo url_get_contents(get_template_directory_uri() . '/dist/img/om-logo.svg'); ?>
+      </div>
+      <div id="site-title-holder" class="grid-item">
+        <h1><a href="<?php echo home_url(); ?>"><?php bloginfo('name'); ?></a></h1>
+      </div>
+      <div class="grid-item desktop-only flex-grow justify-center">
+<?php
+  $mixcloud_url = IGV_get_option('_igv_site_options', '_igv_mixcloud_url');
+?>
+        <nav>
+          <ul class="u-inline-list text-align-center">
+            <li><a href="#" class="js-nav-page" data-nav="programacion">Programación</a></li>
+<?php
+  if (!empty($mixcloud_url)) {
+?>
+            <li><a href="<?php echo $mixcloud_url; ?>">Archivo</a></li>
+<?php
+  }
+?>
+            <li><a href="#" class="js-nav-page" data-nav="sobre">Sobre</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="grid-item desktop-only">
+<?php
+  $facebook_url = IGV_get_option('_igv_site_options', '_igv_socialmedia_facebook_url');
+  $twitter_handle = IGV_get_option('_igv_site_options', '_igv_socialmedia_twitter');
+  $instagram_handle = IGV_get_option('_igv_site_options', '_igv_socialmedia_instagram');
+?>
+        <ul>
+<?php
+  if (!empty($facebook_url)) {
+?>
+          <li><a href="<?php echo $facebook_url; ?>"><?php echo url_get_contents(get_template_directory_uri() . '/dist/img/social-facebook.svg'); ?></a></li>
+<?php
+  }
+
+  if (!empty($twitter_handle)) {
+?>
+          <li><a href="https://www.twitter.com/<?php echo $twitter_handle; ?>"><?php echo url_get_contents(get_template_directory_uri() . '/dist/img/social-twitter.svg'); ?></a></li>
+<?php
+  }
+
+  if (!empty($instagram_handle)) {
+?>
+          <li><a href="https://www.instagram.com/<?php echo $instagram_handle; ?>"><?php echo url_get_contents(get_template_directory_uri() . '/dist/img/social-instagram.svg'); ?></a></li>
+<?php
+  }
+?>
+        </ul>
+      </div>
+      <div id="overlay-toggle-holder" class="grid-item">
+        <div id="overlay-toggle"></div>
+      </div>
+    </div>
+    <div id="mobile-menu" class="mobile-only page-overlay">
+      <nav>
+        <ul>
+          <li><a href="#" class="js-nav-page" data-nav="programacion">Programación</a></li>
+<?php
+  if (!empty($mixcloud_url)) {
+?>
+          <li><a href="<?php echo $mixcloud_url; ?>">Archivo</a></li>
+<?php
+  }
+?>
+          <li><a href="#" class="js-nav-page" data-nav="sobre">Sobre</a></li>
+          <li>
+            <ul>
+<?php
+  if (!empty($facebook_url)) {
+?>
+              <li><a href="<?php echo $facebook_url; ?>"><?php echo url_get_contents(get_template_directory_uri() . '/dist/img/social-facebook.svg'); ?></a></li>
+<?php
+  }
+
+  if (!empty($twitter_handle)) {
+?>
+              <li><a href="https://www.twitter.com/<?php echo $twitter_handle; ?>"><?php echo url_get_contents(get_template_directory_uri() . '/dist/img/social-twitter.svg'); ?></a></li>
+<?php
+  }
+
+  if (!empty($instagram_handle)) {
+?>
+              <li><a href="https://www.instagram.com/<?php echo $instagram_handle; ?>"><?php echo url_get_contents(get_template_directory_uri() . '/dist/img/social-instagram.svg'); ?></a></li>
+<?php
+  }
+?>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+    </div>
   </header>
