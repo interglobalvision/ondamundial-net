@@ -13,7 +13,7 @@ function get_events_object() {
     'meta_query' => array(
       array(
         'key'     => '_igv_evento_start',
-        'value'   => time() - (60 * 60 * 24), // UTC -5, 24 hours ago
+        'value'   => time() - (60 * 60 * 24), // UTC 0, 24 hours ago
         'compare' => '>',
       )
     )
