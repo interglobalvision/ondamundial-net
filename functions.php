@@ -19,6 +19,7 @@ function scripts_and_styles_method() {
     'siteUrl' => home_url(),
     'themeUrl' => get_template_directory_uri(),
     'isAdmin' => $is_admin,
+    'eventsObject' => get_events_object(),
   );
 
   wp_enqueue_script('javascript-library', $javascriptLibrary, '', '', true);
