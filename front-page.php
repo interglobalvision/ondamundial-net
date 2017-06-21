@@ -5,11 +5,11 @@ get_header();
 <main id="main-content">
 
   <section id="player">
-    <?php // PLAYER ?>
+    <?php // get_template_part('partials/player'); ?>
   </section>
 
   <section id="page-programacion" class="page-overlay">
-
+    <?php get_template_part('partials/programacion'); ?>
   </section>
 
 <?php
