@@ -118,7 +118,7 @@ Site.Player = {
 
     // Bind event handlers
     _this.handleOnlineStream = _this.handleOnlineStream.bind(_this);
-    _this.handleCanPlay = _this.handleCanPlay.bind(_this);
+    _this.handleCanplay = _this.handleCanplay.bind(_this);
     _this.handleOfflineStream = _this.handleOfflineStream.bind(_this);
 
     // Subscribe to stream events
@@ -157,18 +157,18 @@ Site.Player = {
     // If the player has never started playing
     if (_this.neverPlayed) {
       // We subscribe to the `canplay` event from the player
-      _this.playerElement.addEventListener('canplay', _this.handleCanPlay);
+      _this.playerElement.addEventListener('canplay', _this.handleCanplay);
     }
   },
 
-  handleCanPlay: function(event) {
+  handleCanplay: function(event) {
     var _this = this;
 
     // Play the audio element
     _this.play();
 
     // Remove listener cuz it's only needed once
-    event.target.removeEventListener(event.type, _this.handleCanPlay);
+    event.target.removeEventListener(event.type, _this.handleCanplay);
 
   },
 
