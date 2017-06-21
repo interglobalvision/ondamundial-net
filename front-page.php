@@ -14,7 +14,7 @@ get_header();
 <?php
   $page_sobre = get_page_by_path('sobre');
 
-  if ($page_sobre != null) {
+  if (!empty($page_sobre)) {
 ?>
   <section id="page-sobre" class="page-overlay">
     <?php echo apply_filters('the_content', $page_sobre->post_content); ?>
