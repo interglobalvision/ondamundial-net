@@ -111,8 +111,11 @@ Site.Programacion = {
 
       // make Year row
       _this.makeEventsRow(
+        // parent element
         _this.programacionContainer,
+        // row id
         yearIndex,
+        // row content
         yearContent
       );
 
