@@ -11,11 +11,11 @@ Site = {
     });
 
     $(document).ready(function () {
-      //Site.Player.init();
+      Site.Player.init();
       Site.Programacion.init();
     });
 
-    //Site.StreamChecker.init();
+    Site.StreamChecker.init();
   },
 
   onResize: function() {
@@ -43,8 +43,10 @@ Site.Programacion = {
     var _this = this;
 
     // loop through Years -> Months -> Days -> Events
-    // add events to DOM as callback
-    _this.fillEventsObject(_this.addEventsToDom.bind(_this));
+    _this.fillEventsObject();
+
+    // add schedule to DOM
+    _this.addEventsToDom();
   },
 
   fillEventsObject: function(callback) {
@@ -94,12 +96,11 @@ Site.Programacion = {
         content: el.content
       });
     });
-
-    callback();
   },
 
   addEventsToDom: function() {
     var _this = this;
+    var scheduleHTML = '';
 
     // Make Years
     _this.scheduleArray.forEach(function(year, yearIndex) {
@@ -109,8 +110,8 @@ Site.Programacion = {
       // fill with year
       yearContent.innerText = year.year;
 
-      // make Year row
-      _this.makeEventsRow(
+      // add Year row to HTML
+      scheduleHTML += _this.makeEventsRow(
         // parent element
         _this.programacionContainer,
         // row id
@@ -183,10 +184,10 @@ Site.Programacion = {
 
     newRow.id = id;
     newRow.className = 'programacion-row';
-    newRow.appendChild(rowContent)
+    newRow.appendChild(rowContent);
 
     // append row to container
-    container.appendChild(newRow)
+    container.appendChild(newRow);
   }
 }
 
