@@ -43,10 +43,11 @@ Site.Programacion = {
     var _this = this;
 
     // loop through Years -> Months -> Days -> Events
-    _this.fillEventsObject();
+    // add events to DOM as callback
+    _this.fillEventsObject(_this.addEventsToDom.bind(_this));
   },
 
-  fillEventsObject: function() {
+  fillEventsObject: function(callback) {
     var _this = this;
 
     // forEach event
@@ -94,8 +95,7 @@ Site.Programacion = {
       });
     });
 
-    //
-    _this.addEventsToDom();
+    callback();
   },
 
   addEventsToDom: function() {
