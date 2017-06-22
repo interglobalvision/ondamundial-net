@@ -36,8 +36,6 @@ Site = {
   triggerEvent: function(eventName, detail) {
     var _this =  this;
 
-    console.log('event triggered: ', eventName);
-
     var customEvent = new CustomEvent(eventName, {
       detail: detail,
     });
@@ -515,9 +513,6 @@ Site.Player = {
 
     // Make returnAnalysisValue be in the range of  0 - 1
     returnAnalysisValue = returnAnalysisValue / 128;
-
-    //console.log(returnAnalysisValue);
-    //return 1;
 
     return returnAnalysisValue;
 
