@@ -294,8 +294,8 @@ Site.Earth = {
     mesh.rotation.x = - Math.PI / 2;
     _this.group.add( mesh );
 
-    _this.renderer = new THREE.CanvasRenderer();
-    _this.renderer.setClearColor( 0xffffff );
+    _this.renderer = new THREE.CanvasRenderer({ alpha: true });
+    _this.renderer.setClearColor( 0x000000, 0 );
     _this.renderer.setPixelRatio( window.devicePixelRatio );
     _this.renderer.setSize( document.body.clientWidth, window.innerHeight );
     _this.container.appendChild( _this.renderer.domElement );
