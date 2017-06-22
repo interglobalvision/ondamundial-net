@@ -1,6 +1,47 @@
 $header-height = 106px
 $transition-duration = .3s
 
+html, body
+  height: 100%
+
+body
+  // background image for testing
+  background-image: url(http://naafi.mx/wp-content/uploads/2013/07/12339411_10156772403895497_2260787796472635302_o.jpg)
+  background-position: center
+  background-size: cover
+
+#overlay
+  position: fixed
+  top: 0
+  left: 0
+  width: 100vw
+  height: 100vh
+  background-color: $color-grey
+  pointer-events: none
+  opacity: 0
+  transition: opacity $transition-duration
+  mix-blend-mode: luminosity
+
+.blend-difference
+  color: $color-grey
+  mix-blend-mode: difference
+  svg
+    fill: $color-grey
+  *::after,
+  *::before
+    border-top-color: $color-grey
+
+.overlay-active
+  #overlay
+    opacity: 1
+  .blend-difference
+    color: $color-black
+    mix-blend-mode: normal
+    svg
+      fill: $color-black
+    *::before
+      border-top-color: $color-black
+
 // HEADER
 
 #site-logo
@@ -15,22 +56,6 @@ $transition-duration = .3s
 .social-icon
   width: 30px
 
-#overlay
-  position: fixed
-  top: 0
-  left: 0
-  width: 100vw
-  height: 100vh
-  background-color: $color-grey-light
-  pointer-events: none
-  opacity: 0
-  transition: opacity $transition-duration
-  mix-blend-mode: luminosity
-
-.overlay-active
-  #overlay
-    opacity: 1
-
 #mobile-overlay-toggle
   position: relative
   width: 30px
@@ -40,7 +65,7 @@ $transition-duration = .3s
     position: absolute
     right: 0
     left: 0
-    border-top: 6px solid $color-black
+    border-top: 6px solid
     content: ''
     transition: transform $transition-duration
   &::before

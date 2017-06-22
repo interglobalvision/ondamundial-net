@@ -30,7 +30,7 @@
 
   <div id="overlay"></div>
 
-  <header id="header" class="container">
+  <header id="header" class="container blend-difference">
     <div class="grid-row align-items-start">
 
       <div class="grid-item">
