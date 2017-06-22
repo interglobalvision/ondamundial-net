@@ -6,7 +6,7 @@ Site = {
   init: function() {
     var _this = this;
 
-    $(window).resize(function(){
+    $(window).resize(function() {
       _this.onResize();
     });
 
@@ -25,7 +25,7 @@ Site = {
 
   fixWidows: function() {
     // utility class mainly for use on headines to avoid widows [single words on a new line]
-    $('.js-fix-widows').each(function(){
+    $('.js-fix-widows').each(function() {
       var string = $(this).html();
       string = string.replace(/ ([^ ]*)$/,'&nbsp;$1');
       $(this).html(string);
@@ -65,7 +65,7 @@ Site.Programacion = {
       var hour = eventMoment.format('H:mm');
 
       // Create this Year object if missing in schedule array
-      if (!_this.scheduleArray[year]) {
+      if (_this.scheduleArray[year] === undefined) {
         _this.scheduleArray[year] = {
           year: year,
           months: []
