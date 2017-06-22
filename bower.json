@@ -16,9 +16,16 @@
   ],
   "dependencies": {
     "lazysizes": "^2.0.4",
+    "moment": "^2.18.1",
     "three.js": "threejs#*"
   },
   "overrides": {
+    "moment": {
+      "main": [
+        "moment.js",
+        "locale/es.js"
+      ]
+    },
     "three.js": {
       "main": [
         "build/three.js",

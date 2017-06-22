@@ -2,6 +2,12 @@
 
 // Custom functions (like special queries, etc)
 
+function convertUTCtoCDMX($timestamp) {
+  $utcOffset = get_option('gmt_offset');
+  $timestampConverted = $timestamp - ($utcOffset * 60 * 60);
+  return $timestampConverted;
+}
+
 // Returns object of events to JS as WP.eventsObject
 function get_events_object() {
   // Events since 24 hours ago
@@ -27,7 +33,7 @@ function get_events_object() {
       $timestamp = get_post_meta($post->ID, '_igv_evento_start', true);
 
       $events_object[] = array(
-        'timestamp' => $timestamp,
+        'timestamp' => convertUTCtoCDMX($timestamp),
         'title' => $post->post_title,
         'content' => apply_filters('the_content', $post->post_content),
       );
