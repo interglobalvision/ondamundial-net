@@ -1,5 +1,5 @@
 /* jshint browser: true, devel: true, indent: 2, curly: true, eqeqeq: true, futurehostile: true, latedef: true, undef: true, unused: true */
-/* global $, jQuery, document, Site, Modernizr */
+/* global $, jQuery, document, Site, Modernizr, Moment */
 
 Site = {
   mobileThreshold: 601,
@@ -11,10 +11,11 @@ Site = {
     });
 
     $(document).ready(function () {
-      Site.Player.init();
+      //Site.Player.init();
+      Site.Programacion.init();
     });
 
-    Site.StreamChecker.init();
+    //Site.StreamChecker.init();
   },
 
   onResize: function() {
@@ -31,6 +32,59 @@ Site = {
     });
   },
 };
+
+Site.Programacion = {
+  eventsPosts: JSON.parse(WP.programacionEvents),
+  eventsObject: new Object(),
+  init: function() {
+    var _this = this;
+
+    _this.sortEvents();
+  },
+
+  sortEvents: function() {
+    var _this = this;
+
+    _this.eventsPosts.forEach(function(el) {
+      // generate moment from timestamp in user local timezone
+      var eventMoment = moment.unix(parseInt(el.timestamp));
+
+      var year = eventMoment.format('YYYY');
+      var month = eventMoment.format('MMMM');
+      var monthNum = eventMoment.format('M');
+      var day = eventMoment.format('dddd Do');
+      var dayNum = eventMoment.format('D');
+      var hour = eventMoment.format('H:mm');
+
+      if (!_this.eventsObject[year]) {
+        _this.eventsObject[year] = [];
+        _this.eventsObject[year].months = [];
+      }
+
+      if (_this.eventsObject[year].months[monthNum] === undefined) {
+        _this.eventsObject[year].months[monthNum] = {
+          month: month,
+          days: []
+        };
+      }
+
+      if (_this.eventsObject[year].months[monthNum].days[dayNum] === undefined) {
+        _this.eventsObject[year].months[monthNum].days[dayNum] = {
+          day: day,
+          events: []
+        };
+      }
+
+      _this.eventsObject[year].months[monthNum].days[dayNum].events.push({
+        'hour': hour,
+        'title': el.title,
+        'content': el.content,
+      });
+    });
+
+    console.log(_this.eventsObject);
+  }
+}
 
 Site.StreamChecker = {
   statusUrl: 'https://public.radio.co/stations/s0b5e9c02c/status',
