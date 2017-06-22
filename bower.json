@@ -15,6 +15,16 @@
     "tests"
   ],
   "dependencies": {
-    "lazysizes": "^2.0.4"
+    "lazysizes": "^2.0.4",
+    "three.js": "threejs#*"
+  },
+  "overrides": {
+    "three.js": {
+      "main": [
+        "build/three.js",
+        "examples/js/renderers/CanvasRenderer.js",
+        "examples/js/renderers/Projector.js"
+      ]
+    }
   }
 }
