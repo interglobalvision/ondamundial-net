@@ -1,3 +1,13 @@
+.blend-difference
+  .desktop-page-close
+    svg
+      stroke: $color-grey
+
+.overlay-active
+  .blend-difference
+    .desktop-page-close
+      svg
+        stroke: $color-grey
 
 // HEADER
 
@@ -6,3 +16,15 @@
 
 #header-main
   padding-top: $margin-small
+
+.desktop-page-close
+  position: relative
+  display: inline-block
+  width: $margin-small
+  height: $margin-small
+  margin: 0 $margin-tiny ($margin-small * -.3)
+  svg
+    display: block
+    fill: none
+    width: 100%
+    height: 100%
