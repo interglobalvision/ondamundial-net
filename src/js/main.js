@@ -513,7 +513,7 @@ Site.Player = {
     // 0 (silence) - 128 (sound)
     if (returnAnalysisValue < 128) {
       returnAnalysisValue = 128 - returnAnalysisValue;
-    // or subtract 128 from values 129 - 256
+    // or subtract 128 from values 128 - 256
     // to get 0 (silence) - 128 (sound)
     } else {
       returnAnalysisValue -= 128;
