@@ -12,6 +12,7 @@ Site = {
 
     $(document).ready(function () {
       Site.Player.init();
+      Site.Earth.init();
       Site.Programacion.init();
     });
 
@@ -206,6 +207,100 @@ Site.Programacion = {
 
     // Append row to container
     container.appendChild(newRow);
+  }
+};
+
+Site.Earth = {
+  canvasWidth: 128,
+  canvasHeight: 128,
+  textureUrl: WP.themeUrl + '/dist/img/earth_texture.jpg',
+  initialCameraZ: 1000,
+  init: function() {
+    var _this = this;
+
+    // Bind Animate function
+    _this.animate = _this.animate.bind(_this);
+
+    _this.container = document.getElementById('earth-container');
+
+    // -- Set Three stuff
+
+    // Set camera
+    _this.camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 2000 );
+    _this.camera.position.z = _this.initialCameraZ;
+
+    // Set Scene
+    _this.scene = new THREE.Scene();
+
+    // Set Group
+    _this.group = new THREE.Group();
+
+    // Add Group to the scene
+    _this.scene.add( _this.group );
+
+    // Load earth texture
+    _this.loadTexture();
+
+    // Create canvas element
+    _this.canvas = document.createElement( 'canvas' );
+
+    // Set Canvas size
+    _this.canvas.width = _this.canvasWidth;
+    _this.canvas.height = _this.canvasHeight;
+
+    // Render canvas
+    _this.renderCanvas();
+
+    // Animate
+    _this.animate();
+  },
+
+  renderCanvas: function() {
+    var _this = this;
+
+    var texture = new THREE.CanvasTexture( _this.canvas );
+    var geometry = new THREE.PlaneBufferGeometry( 300, 300, 3, 3 );
+    var material = new THREE.MeshBasicMaterial( { map: texture, overdraw: 0.5 } );
+    var mesh = new THREE.Mesh( geometry, material );
+
+    mesh.position.y = - 250;
+    mesh.rotation.x = - Math.PI / 2;
+    _this.group.add( mesh );
+
+    _this.renderer = new THREE.CanvasRenderer();
+    _this.renderer.setClearColor( 0xffffff );
+    _this.renderer.setPixelRatio( window.devicePixelRatio );
+    _this.renderer.setSize( window.innerWidth, window.innerHeight );
+    _this.container.appendChild( _this.renderer.domElement );
+  },
+
+  loadTexture: function() {
+    var _this = this;
+
+    var loader = new THREE.TextureLoader();
+
+    loader.load(_this.textureUrl, function (texture) {
+      var geometry = new THREE.SphereGeometry( 200, 20, 20 );
+      var material = new THREE.MeshBasicMaterial( { map: texture, overdraw: 0.5 } );
+      var mesh = new THREE.Mesh( geometry, material );
+      _this.group.add( mesh );
+    });
+  },
+
+  animate: function() {
+    var _this = this;
+
+    window.requestAnimationFrame(_this.animate);
+t
+    _this.renderScene();
+  },
+
+  renderScene: function() {
+    var _this = this;
+
+    _this.camera.lookAt( _this.scene.position );
+    _this.group.rotation.y -= 0.005;
+    _this.renderer.render( _this.scene, _this.camera );
   }
 };
 
