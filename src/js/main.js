@@ -41,27 +41,40 @@ Site.Earth = {
   init: function() {
     var _this = this;
 
+    // Bind Animate function
     _this.animate = _this.animate.bind(_this);
 
     _this.container = document.getElementById('earth-container');
 
+    // -- Set Three stuff
+
+    // Set camera
     _this.camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 2000 );
     _this.camera.position.z = _this.initialCameraZ;
 
+    // Set Scene
     _this.scene = new THREE.Scene();
 
+    // Set Group
     _this.group = new THREE.Group();
+
+    // Add Group to the scene
     _this.scene.add( _this.group );
 
-    // load earth texture
+    // Load earth texture
     _this.loadTexture();
 
+    // Create canvas element
     _this.canvas = document.createElement( 'canvas' );
+
+    // Set Canvas size
     _this.canvas.width = _this.canvasWidth;
     _this.canvas.height = _this.canvasHeight;
 
+    // Render canvas
     _this.renderCanvas();
 
+    // Animate
     _this.animate();
   },
 
@@ -101,6 +114,7 @@ Site.Earth = {
     var _this = this;
 
     window.requestAnimationFrame(_this.animate);
+t
     _this.renderScene();
   },
 
