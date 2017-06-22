@@ -104,13 +104,13 @@ Site.Earth = {
     _this.renderScene();
   },
 
-	renderScene: function() {
+  renderScene: function() {
     var _this = this;
 
     _this.camera.lookAt( _this.scene.position );
     _this.group.rotation.y -= 0.005;
     _this.renderer.render( _this.scene, _this.camera );
-	}
+  }
 };
 
 Site.StreamChecker = {
