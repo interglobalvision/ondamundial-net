@@ -1,5 +1,5 @@
 /* jshint browser: true, devel: true, indent: 2, curly: true, eqeqeq: true, futurehostile: true, latedef: true, undef: true, unused: true */
-/* global $, jQuery, document, Site, Modernizr, Moment */
+/* global $, jQuery, document, Site, Modernizr, moment, WP */
 
 Site = {
   mobileThreshold: 601,
@@ -49,7 +49,7 @@ Site.Programacion = {
     _this.addEventsToDom();
   },
 
-  fillEventsObject: function(callback) {
+  fillEventsObject: function() {
     var _this = this;
 
     // forEach event
@@ -66,11 +66,10 @@ Site.Programacion = {
 
       // Create this Year object if missing in schedule array
       if (!_this.scheduleArray[year]) {
-        _this.scheduleArray[year] = [];
         _this.scheduleArray[year] = {
           year: year,
           months: []
-        }
+        };
       }
 
       // Create this Month object if missing in Year
@@ -189,7 +188,7 @@ Site.Programacion = {
     // append row to container
     container.appendChild(newRow);
   }
-}
+};
 
 Site.StreamChecker = {
   statusUrl: 'https://public.radio.co/stations/s0b5e9c02c/status',
