@@ -242,7 +242,7 @@ Site.Player = {
     _this.audioAnalyser.getByteTimeDomainData(_this.analyserData);
 
     // from max 128
-    var returnAnalysisValue = 128 - _this.analyserData[0];
+    var returnAnalysisValue = 256 - _this.analyserData[0];
 
     return returnAnalysisValue;
 
