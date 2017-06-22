@@ -4,9 +4,7 @@ get_header();
 
 <main id="main-content">
 
-  <section id="player">
-    <?php // get_template_part('partials/player'); ?>
-  </section>
+  <?php get_template_part('partials/player'); ?>
 
   <section id="page-programacion" class="page-overlay">
   </section>
