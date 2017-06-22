@@ -291,7 +291,7 @@ Site.Earth = {
     var _this = this;
 
     window.requestAnimationFrame(_this.animate);
-t
+
     _this.renderScene();
   },
 
