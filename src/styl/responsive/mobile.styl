@@ -1,3 +1,101 @@
+$header-height = 106px
+$transition-duration = .3s
+
+html, body
+  height: 100%
+
+body
+  background-position: center
+  background-size: cover
+
+#overlay
+  position: fixed
+  top: 0
+  left: 0
+  width: 100vw
+  height: 100vh
+  background-color: $color-grey
+  pointer-events: none
+  opacity: 0
+  transition: opacity $transition-duration
+  mix-blend-mode: luminosity
+
+.blend-difference
+  color: $color-grey
+  mix-blend-mode: difference
+  svg
+    fill: $color-grey
+  *::after,
+  *::before
+    border-top-color: $color-grey
+
+.overlay-active
+  #overlay
+    opacity: 1
+  .blend-difference
+    color: $color-black
+    mix-blend-mode: normal
+    svg
+      fill: $color-black
+    *::before
+      border-top-color: $color-black
+
+// HEADER
+
+#site-logo
+  width: 30px
+
+#header-main
+  padding-top: $margin-small
+
+#site-title-holder
+  flex-grow: 1
+
+.social-icon
+  width: 30px
+
+#mobile-overlay-toggle
+  position: relative
+  width: 30px
+  height: 20px
+  &::before,
+  &::after
+    position: absolute
+    right: 0
+    left: 0
+    border-top: 6px solid
+    content: ''
+    transition: transform $transition-duration
+  &::before
+    top: 0
+  &::after
+    bottom: 0
+
+.overlay-active
+  #mobile-overlay-toggle
+    &::before
+      transform: translateY(7px) rotate(45deg)
+    &::after
+      transform: translateY(-7px) rotate(-45deg)
+
+#mobile-menu
+  position: fixed
+  top: $header-height
+  left: 0
+  width: 100vw
+  opacity: 0
+  pointer-events: none
+  transition: opacity $transition-duration
+
+.overlay-active
+  #mobile-menu
+    opacity: 1
+    pointer-events: all
+
+// ******************************************************
+
+// PLAYER
+
 #offline-icon
   display: inline-block
 
@@ -23,4 +121,3 @@
 
     #play-button
       display: none
-

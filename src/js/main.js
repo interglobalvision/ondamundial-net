@@ -12,6 +12,7 @@ Site = {
 
     $(document).ready(function () {
       Site.Player.init();
+      Site.Overlay.init();
       Site.Earth.init();
       Site.Programacion.init();
     });
@@ -42,6 +43,34 @@ Site = {
 
     document.dispatchEvent(customEvent);
   },
+};
+
+Site.Overlay = {
+  init: function() {
+    var _this = this;
+
+    _this.mobileToggle = document.getElementById('mobile-overlay-toggle');
+    _this.mobileMenu = document.getElementById('mobile-menu');
+
+    _this.bindToggles();
+  },
+
+  bindToggles: function() {
+    var _this = this;
+
+    _this.mobileToggle.addEventListener('click', _this.handleToggle.bind(_this));
+  },
+
+  handleToggle: function() {
+    var _this = this;
+
+    if (document.body.classList.contains('overlay-active')) {
+      document.body.classList.remove('overlay-active');
+    } else {
+      document.body.classList.add('overlay-active');
+    }
+
+  }
 };
 
 Site.Programacion = {
