@@ -36,8 +36,6 @@ Site = {
   triggerEvent: function(eventName, detail) {
     var _this =  this;
 
-    console.log('event triggered: ', eventName);
-
     var customEvent = new CustomEvent(eventName, {
       detail: detail,
     });
@@ -300,7 +298,21 @@ Site.Earth = {
 
     _this.camera.lookAt( _this.scene.position );
     _this.group.rotation.y -= 0.005;
+
+    // Get analyser audio value
+    // The value goes from 0 to 1
+    var audioValue = Site.Player.getAnalyserValue();
+
+    // because the larger Z is the smaller the globe is
+    // we need turn the value to be from 1 to 0
+    audioValue = 1 - audioValue;
+
+    // Set new camera z position
+    _this.camera.position.z = audioValue * _this.initialCameraZ;
+
+    // Re-render scene
     _this.renderer.render( _this.scene, _this.camera );
+
   }
 };
 
@@ -363,6 +375,8 @@ Site.StreamChecker = {
 Site.Player = {
   neverPlayed: true,
   fadeTime:  2000,
+  fftSize: 32,
+  freqBand: 1,
   streamUrl: 'http://streaming.radio.co/s0b5e9c02c/listen',
   init: function() {
     var _this = this;
@@ -383,7 +397,6 @@ Site.Player = {
     _this.handleOnlineStream = _this.handleOnlineStream.bind(_this);
     _this.handleCanplay = _this.handleCanplay.bind(_this);
     _this.handleOfflineStream = _this.handleOfflineStream.bind(_this);
-    _this.animateTest = _this.animateTest.bind(_this); // TODO: Remove when globe is done
 
     // Subscribe to stream events
     document.addEventListener('streamonline', _this.handleOnlineStream);
@@ -411,9 +424,11 @@ Site.Player = {
     _this.audioAnalyser = _this.audioContext.createAnalyser();
 
     // Set analyser settings
-    _this.audioAnalyser.fftSize = 32;
+    _this.audioAnalyser.fftSize = _this.fftSize;
+    /*
     _this.audioAnalyser.minDecibels = -90;
     _this.audioAnalyser.maxDecibels = -10;
+    */
     _this.audioAnalyser.smoothingTimeConstant = 1;
 
     // Init the anaylser data array
@@ -471,38 +486,41 @@ Site.Player = {
       // Setup Audio processing
       _this.setupAudioProcessing();
 
-      // Trigger test animation, which actually is not really an animation but its just for testing
-      window.requestAnimationFrame(_this.animateTest); // TODO remove when globe is done
     }
 
   },
 
-  // TODO remove when globe is done
-  animateTest: function() {
-    var _this = this;
-
-    window.requestAnimationFrame(_this.animateTest);
-
-
-    // When the globe is done, from whatever code is animating it we will call `Site.Player.analyserData[2]` to
-    var level = parseInt(_this.getAnalyserValue() / 2);
-    var levelString = new Array(level + 1).join('#');
-
-    console.log(levelString);
-
-  },
-
   // Returns analyser data
-  // TODO: Globe should call this function on every `render()`
-  // Site.Plater.getAnalyserValue();
   getAnalyserValue: function() {
     var _this = this;
+
+    // If the audioContext is not defined we return 128 which is equal to no-sound
+    if(_this.audioContext === undefined) {
+      return 128;
+    }
 
     // Pass anlyser data to _this.analyserData
     _this.audioAnalyser.getByteTimeDomainData(_this.analyserData);
 
-    // from max 256
-    var returnAnalysisValue = 256 - _this.analyserData[0];
+    // Get analysis value
+    // Our return values here range from 0 - 256.
+    // Because it is a waveform, 0 and 256 are both full sound
+    // on the wave, and the midpoint 128 is full silence.
+    // We can think of it as a range from -1 - 1, with 128 at the 0 point.
+    var returnAnalysisValue = _this.analyserData[_this.freqBand];
+
+    // Here we invert values from 128 (silence) - 0 (sound), to become
+    // 0 (silence) - 128 (sound)
+    if (returnAnalysisValue < 128) {
+      returnAnalysisValue = 128 - returnAnalysisValue;
+    // or subtract 128 from values 128 - 256
+    // to get 0 (silence) - 128 (sound)
+    } else {
+      returnAnalysisValue -= 128;
+    }
+
+    // Make returnAnalysisValue be in the range of  0 - 1
+    returnAnalysisValue = returnAnalysisValue / 128;
 
     return returnAnalysisValue;
 
