@@ -37,26 +37,28 @@ Site.Programacion = {
   // parse JSON event posts object from Wordpress
   eventsPosts: JSON.parse(WP.programacionEvents),
   scheduleArray: [],
-  programacionContainer: document.getElementById('page-programacion'),
-
   init: function() {
     var _this = this;
 
-    // loop through Years -> Months -> Days -> Events
+    // Set programacion container
+    _this.programacionContainer =  document.getElementById('page-programacion'),
+
+    // Loop through Years -> Months -> Days -> Events
     _this.fillEventsObject();
 
-    // add schedule to DOM
+    // Add schedule to DOM
     _this.addEventsToDom();
   },
 
   fillEventsObject: function() {
     var _this = this;
 
-    // forEach event
+    // Iterate thru each event
     _this.eventsPosts.forEach(function(el) {
-      // generate moment from timestamp in user local timezone
+      // Generate moment from timestamp in user local timezone
       var eventMoment = moment.unix(parseInt(el.timestamp));
 
+      // Parse date/time data
       var year = eventMoment.format('YYYY');
       var month = eventMoment.format('MMMM');
       var monthNum = eventMoment.format('M');
@@ -175,17 +177,22 @@ Site.Programacion = {
     });
   },
 
+  // Generate DOM for an events row and append it:
+  // <div id={id} class="programacion-row">
+  //   {rowContent}
+  // </div>
   makeEventsRow: function(container, id, rowContent) {
     var _this = this;
 
-    // create row element
+    // Create row element
     var newRow = document.createElement('div');
 
+    // Set attributes
     newRow.id = id;
     newRow.className = 'programacion-row';
     newRow.appendChild(rowContent);
 
-    // append row to container
+    // Append row to container
     container.appendChild(newRow);
   }
 };
