@@ -270,7 +270,7 @@ Site.Earth = {
     _this.renderer = new THREE.CanvasRenderer();
     _this.renderer.setClearColor( 0xffffff );
     _this.renderer.setPixelRatio( window.devicePixelRatio );
-    _this.renderer.setSize( window.innerWidth, window.innerHeight );
+    _this.renderer.setSize( document.body.clientWidth, window.innerHeight );
     _this.container.appendChild( _this.renderer.domElement );
   },
 
