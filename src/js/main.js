@@ -303,8 +303,8 @@ Site.Earth = {
     // The value goes from 0 to 1
     var audioValue = Site.Player.getAnalyserValue();
 
-    // because the larger Z is the smaller the globe is and the
-    // we turn the value to be from 1 to 0
+    // because the larger Z is the smaller the globe is
+    // we need turn the value to be from 1 to 0
     audioValue = 1 - audioValue;
 
     // Set new camera z position
@@ -494,6 +494,7 @@ Site.Player = {
   getAnalyserValue: function() {
     var _this = this;
 
+    // If the audioContext is not defined we return 128 which is equal to no-sound
     if(_this.audioContext === undefined) {
       return 128;
     }
@@ -501,10 +502,14 @@ Site.Player = {
     // Pass anlyser data to _this.analyserData
     _this.audioAnalyser.getByteTimeDomainData(_this.analyserData);
 
-    // from max 256
+    // Get analysis value
+    // audio values range from -1 to 1. In this case this returns
+    // from 0 to 256, 0 is -1 and 256 is 1. So 128 is 0.
     var returnAnalysisValue = _this.analyserData[_this.freqBand];
 
-    // Make returnAnalysisValue be in the range of  0 - 128
+    // Make returnAnalysisValue be in the range of  0 - 128 by making the
+    // "negtive values" (smaller than 128) into "positive" values and
+    // larger values to offset it down by 128.
     if (returnAnalysisValue < 128) {
       returnAnalysisValue = 128 - returnAnalysisValue;
     } else {
