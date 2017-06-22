@@ -34,18 +34,22 @@ Site = {
 };
 
 Site.Programacion = {
+  // parse JSON event posts object from Wordpress
   eventsPosts: JSON.parse(WP.programacionEvents),
-  eventsObject: [],
+  scheduleArray: [],
   programacionContainer: document.getElementById('page-programacion'),
+
   init: function() {
     var _this = this;
 
-    _this.sortEvents();
+    // loop through Years -> Months -> Days -> Events
+    _this.fillEventsObject();
   },
 
-  sortEvents: function() {
+  fillEventsObject: function() {
     var _this = this;
 
+    // forEach event
     _this.eventsPosts.forEach(function(el) {
       // generate moment from timestamp in user local timezone
       var eventMoment = moment.unix(parseInt(el.timestamp));
@@ -57,35 +61,40 @@ Site.Programacion = {
       var dayNum = eventMoment.format('D');
       var hour = eventMoment.format('H:mm');
 
-      if (!_this.eventsObject[year]) {
-        _this.eventsObject[year] = [];
-        _this.eventsObject[year].year = year;
-        _this.eventsObject[year].months = [];
+      // Create this Year object if missing in schedule array
+      if (!_this.scheduleArray[year]) {
+        _this.scheduleArray[year] = [];
+        _this.scheduleArray[year] = {
+          year: year,
+          months: []
+        }
       }
 
-      if (_this.eventsObject[year].months[monthNum] === undefined) {
-        _this.eventsObject[year].months[monthNum] = {
+      // Create this Month object if missing in Year
+      if (_this.scheduleArray[year].months[monthNum] === undefined) {
+        _this.scheduleArray[year].months[monthNum] = {
           month: month,
           days: []
         };
       }
 
-      if (_this.eventsObject[year].months[monthNum].days[dayNum] === undefined) {
-        _this.eventsObject[year].months[monthNum].days[dayNum] = {
+      // Create this Day object if missing in Month
+      if (_this.scheduleArray[year].months[monthNum].days[dayNum] === undefined) {
+        _this.scheduleArray[year].months[monthNum].days[dayNum] = {
           day: day,
           events: []
         };
       }
 
-      _this.eventsObject[year].months[monthNum].days[dayNum].events.push({
+      // Push Event object to events array
+      _this.scheduleArray[year].months[monthNum].days[dayNum].events.push({
         hour: hour,
         title: el.title,
         content: el.content
       });
     });
 
-    console.log(_this.eventsObject);
-
+    //
     _this.addEventsToDom();
   },
 
@@ -93,7 +102,7 @@ Site.Programacion = {
     var _this = this;
 
     // Make Years
-    _this.eventsObject.forEach(function(year, yearIndex) {
+    _this.scheduleArray.forEach(function(year, yearIndex) {
 
       // create content element
       var yearContent = document.createElement('h3');
