@@ -215,8 +215,6 @@ Site.Earth = {
   canvasHeight: 128,
   textureUrl: WP.themeUrl + '/dist/img/earth_texture.jpg',
   initialCameraZ: 1000,
-  maxCameraZ: 1500,
-  minCameraZ: 500,
   init: function() {
     var _this = this;
 
@@ -302,11 +300,21 @@ Site.Earth = {
 
     _this.camera.lookAt( _this.scene.position );
     _this.group.rotation.y -= 0.005;
-    _this.renderer.render( _this.scene, _this.camera );
 
+    // Get analyser audio value
+    // The value goes from 0 to 1
     var audioValue = Site.Player.getAnalyserValue();
 
-    _this.camera.position.z = audioValue * 6;
+    // because the larger Z is the smaller the globe is and the
+    // we turn the value to be from 1 to 0
+    audioValue = 1 - audioValue;
+
+    // Set new camera z position
+    _this.camera.position.z = audioValue * _this.initialCameraZ;
+
+    // Re-render scene
+    _this.renderer.render( _this.scene, _this.camera );
+
   }
 };
 
@@ -369,6 +377,8 @@ Site.StreamChecker = {
 Site.Player = {
   neverPlayed: true,
   fadeTime:  2000,
+  fftSize: 32,
+  freqBand: 1,
   streamUrl: 'http://streaming.radio.co/s0b5e9c02c/listen',
   init: function() {
     var _this = this;
@@ -416,10 +426,12 @@ Site.Player = {
     _this.audioAnalyser = _this.audioContext.createAnalyser();
 
     // Set analyser settings
-    _this.audioAnalyser.fftSize = 32;
+    _this.audioAnalyser.fftSize = _this.fftSize;
+    /*
     _this.audioAnalyser.minDecibels = -90;
     _this.audioAnalyser.maxDecibels = -10;
-    _this.audioAnalyser.smoothingTimeConstant = 0.1;
+    */
+    _this.audioAnalyser.smoothingTimeConstant = 1;
 
     // Init the anaylser data array
     _this.analyserData = new Uint8Array(_this.audioAnalyser.frequencyBinCount);
@@ -492,7 +504,20 @@ Site.Player = {
     _this.audioAnalyser.getByteTimeDomainData(_this.analyserData);
 
     // from max 256
-    var returnAnalysisValue = 256 - _this.analyserData[1];
+    var returnAnalysisValue = _this.analyserData[_this.freqBand];
+
+    // Make returnAnalysisValue be in the range of  0 - 128
+    if (returnAnalysisValue < 128) {
+      returnAnalysisValue = 128 - returnAnalysisValue;
+    } else {
+      returnAnalysisValue -= 128;
+    }
+
+    // Make returnAnalysisValue be in the range of  0 - 1
+    returnAnalysisValue = returnAnalysisValue / 128;
+
+    //console.log(returnAnalysisValue);
+    //return 1;
 
     return returnAnalysisValue;
 
