@@ -54,9 +54,9 @@ Site.Programacion = {
     var _this = this;
 
     // Iterate thru each event
-    _this.eventsPosts.forEach(function(el) {
+    _this.eventsPosts.forEach(function(scheduleEvent) {
       // Generate moment from timestamp in user local timezone
-      var eventMoment = moment.unix(parseInt(el.timestamp));
+      var eventMoment = moment.unix(parseInt(scheduleEvent.timestamp));
 
       // Parse date/time data
       var year = eventMoment.format('YYYY');
@@ -93,8 +93,8 @@ Site.Programacion = {
       // Push Event object to events array
       _this.scheduleArray[year].months[monthNum].days[dayNum].events.push({
         hour: hour,
-        title: el.title,
-        content: el.content
+        title: scheduleEvent.title,
+        content: scheduleEvent.content
       });
     });
   },
