@@ -1,17 +1,18 @@
 /* jshint browser: true, devel: true, indent: 2, curly: true, eqeqeq: true, futurehostile: true, latedef: true, undef: true, unused: true */
-/* global $, jQuery, document, Site, Modernizr */
+/* global $, jQuery, document, Site, Modernizr, moment, WP */
 
 Site = {
   mobileThreshold: 601,
   init: function() {
     var _this = this;
 
-    $(window).resize(function(){
+    $(window).resize(function() {
       _this.onResize();
     });
 
     $(document).ready(function () {
       Site.Player.init();
+      Site.Programacion.init();
     });
 
     Site.StreamChecker.init();
@@ -24,7 +25,7 @@ Site = {
 
   fixWidows: function() {
     // utility class mainly for use on headines to avoid widows [single words on a new line]
-    $('.js-fix-widows').each(function(){
+    $('.js-fix-widows').each(function() {
       var string = $(this).html();
       string = string.replace(/ ([^ ]*)$/,'&nbsp;$1');
       $(this).html(string);
@@ -42,6 +43,170 @@ Site = {
 
     document.dispatchEvent(customEvent);
   },
+};
+
+Site.Programacion = {
+  // parse JSON event posts object from Wordpress
+  eventsPosts: JSON.parse(WP.programacionEvents),
+  scheduleArray: [],
+  init: function() {
+    var _this = this;
+
+    // Set programacion container
+    _this.programacionContainer =  document.getElementById('page-programacion'),
+
+    // Loop through Years -> Months -> Days -> Events
+    _this.fillEventsObject();
+
+    // Add schedule to DOM
+    _this.addEventsToDom();
+  },
+
+  fillEventsObject: function() {
+    var _this = this;
+
+    // Iterate thru each event
+    _this.eventsPosts.forEach(function(scheduleEvent) {
+      // Generate moment from timestamp in user local timezone
+      var eventMoment = moment.unix(parseInt(scheduleEvent.timestamp));
+
+      // Parse date/time data
+      var year = eventMoment.format('YYYY');
+      var month = eventMoment.format('MMMM');
+      var monthNum = eventMoment.format('M');
+      var day = eventMoment.format('dddd Do');
+      var dayNum = eventMoment.format('D');
+      var hour = eventMoment.format('H:mm');
+
+      // Create this Year object if missing in schedule array
+      if (_this.scheduleArray[year] === undefined) {
+        _this.scheduleArray[year] = {
+          year: year,
+          months: []
+        };
+      }
+
+      // Create this Month object if missing in Year
+      if (_this.scheduleArray[year].months[monthNum] === undefined) {
+        _this.scheduleArray[year].months[monthNum] = {
+          month: month,
+          days: []
+        };
+      }
+
+      // Create this Day object if missing in Month
+      if (_this.scheduleArray[year].months[monthNum].days[dayNum] === undefined) {
+        _this.scheduleArray[year].months[monthNum].days[dayNum] = {
+          day: day,
+          events: []
+        };
+      }
+
+      // Push Event object to events array
+      _this.scheduleArray[year].months[monthNum].days[dayNum].events.push({
+        hour: hour,
+        title: scheduleEvent.title,
+        content: scheduleEvent.content
+      });
+    });
+  },
+
+  addEventsToDom: function() {
+    var _this = this;
+    var scheduleHTML = '';
+
+    // Make Years
+    _this.scheduleArray.forEach(function(year, yearIndex) {
+
+      // create content element
+      var yearContent = document.createElement('h3');
+      // fill with year
+      yearContent.innerText = year.year;
+
+      // add Year row to HTML
+      scheduleHTML += _this.makeEventsRow(
+        // parent element
+        _this.programacionContainer,
+        // row id
+        yearIndex,
+        // row content
+        yearContent
+      );
+
+      // Make Months
+      year.months.forEach(function(month, monthIndex) {
+
+        // create content element
+        var monthContent = document.createElement('h3');
+        // fill with month
+        monthContent.innerText = month.month;
+
+        // make Month row
+        _this.makeEventsRow(
+          document.getElementById(yearIndex),
+          yearIndex + '-' + monthIndex,
+          monthContent
+        );
+
+        // Make Days
+        month.days.forEach(function(day, dayIndex) {
+
+          // create content element
+          var dayContent = document.createElement('h3');
+          // fill with day
+          dayContent.innerText = day.day;
+
+          // make Day row
+          _this.makeEventsRow(
+            document.getElementById(yearIndex + '-' + monthIndex),
+            yearIndex + '-' + monthIndex + '-' + dayIndex,
+            dayContent
+          );
+
+          // Make Events
+          day.events.forEach(function(eventObj, eventIndex) {
+
+            // create content element
+            var eventContent = document.createElement('div');
+            // set element element class
+            eventContent.className = 'programacion-event';
+            // fill with event info
+            eventContent.innerHTML = '<div class="programacion-event-hour">' + eventObj.hour + '</div><div class="programacion-event-info"><h2>' + eventObj.title + '</h2>' + eventObj.content;
+
+            // make Event row
+            _this.makeEventsRow(
+              document.getElementById(yearIndex + '-' + monthIndex + '-' + dayIndex),
+              yearIndex + '-' + monthIndex + '-' + dayIndex + '-' + eventIndex,
+              eventContent
+            );
+
+          });
+
+        });
+
+      });
+
+    });
+  },
+
+  // Generate DOM for an events row and append it:
+  // <div id={id} class="programacion-row">
+  //   {rowContent}
+  // </div>
+  makeEventsRow: function(container, id, rowContent) {
+    var _this = this;
+
+    // Create row element
+    var newRow = document.createElement('div');
+
+    // Set attributes
+    newRow.id = id;
+    newRow.className = 'programacion-row';
+    newRow.appendChild(rowContent);
+
+    // Append row to container
+    container.appendChild(newRow);
+  }
 };
 
 Site.StreamChecker = {
