@@ -503,15 +503,18 @@ Site.Player = {
     _this.audioAnalyser.getByteTimeDomainData(_this.analyserData);
 
     // Get analysis value
-    // audio values range from -1 to 1. In this case this returns
-    // from 0 to 256, 0 is -1 and 256 is 1. So 128 is 0.
+    // Our return values here range from 0 - 256.
+    // Because it is a waveform, 0 and 256 are both full sound
+    // on the wave, and the midpoint 128 is full silence.
+    // We can think of it as a range from -1 - 1, with 128 at the 0 point.
     var returnAnalysisValue = _this.analyserData[_this.freqBand];
 
-    // Make returnAnalysisValue be in the range of  0 - 128 by making the
-    // "negtive values" (smaller than 128) into "positive" values and
-    // larger values to offset it down by 128.
+    // Here we invert values from 128 (silence) - 0 (sound), to become
+    // 0 (silence) - 128 (sound)
     if (returnAnalysisValue < 128) {
       returnAnalysisValue = 128 - returnAnalysisValue;
+    // or subtract 128 from values 129 - 256
+    // to get 0 (silence) - 128 (sound)
     } else {
       returnAnalysisValue -= 128;
     }
