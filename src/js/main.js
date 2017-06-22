@@ -1,5 +1,5 @@
 /* jshint browser: true, devel: true, indent: 2, curly: true, eqeqeq: true, futurehostile: true, latedef: true, undef: true, unused: true */
-/* global $, jQuery, document, Site, Modernizr, moment, WP */
+/* global $, jQuery, document, Site, Modernizr, moment, WP, THREE*/
 
 Site = {
   mobileThreshold: 601,
@@ -54,7 +54,7 @@ Site.Programacion = {
     var _this = this;
 
     // Set programacion container
-    _this.programacionContainer =  document.getElementById('page-programacion'),
+    _this.programacionContainer =  document.getElementById('page-programacion');
 
     // Loop through Years -> Months -> Days -> Events
     _this.fillEventsObject();
