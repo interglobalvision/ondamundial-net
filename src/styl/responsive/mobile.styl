@@ -7,6 +7,7 @@ html, body
 body
   background-position: center
   background-size: cover
+  background-image: url(http://naafi.mx/wp-content/uploads/2013/07/12339411_10156772403895497_2260787796472635302_o.jpg)
 
 #overlay
   position: fixed
@@ -28,6 +29,16 @@ body
   *::after,
   *::before
     border-top-color: $color-grey
+
+#earth-container
+  position: fixed
+  top: 0
+  left: 0
+  z-index: 0
+  opacity: .8
+  filter: saturate(0)
+  mix-blend-mode: difference
+  pointer-events: none
 
 .overlay-active
   #overlay
