@@ -23,6 +23,7 @@ Site = {
   onResize: function() {
     var _this = this;
 
+    Site.Earth.onResize();
   },
 
   fixWidows: function() {
@@ -342,6 +343,14 @@ Site.Earth = {
     // Re-render scene
     _this.renderer.render( _this.scene, _this.camera );
 
+  },
+
+  onResize: function() {
+    var _this = this;
+
+    _this.camera.aspect = document.body.clientWidth / window.innerHeight;
+    _this.camera.updateProjectionMatrix();
+    _this.renderer.setSize( document.body.clientWidth, window.innerHeight );
   }
 };
 
