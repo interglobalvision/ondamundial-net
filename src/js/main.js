@@ -1,5 +1,5 @@
 /* jshint browser: true, devel: true, indent: 2, curly: true, eqeqeq: true, futurehostile: true, latedef: true, undef: true, unused: true */
-/* global $, jQuery, document, Site, Modernizr, moment, WP */
+/* global $, jQuery, document, Site, Modernizr, moment, WP, THREE*/
 
 Site = {
   mobileThreshold: 601,
@@ -52,7 +52,7 @@ Site.Programacion = {
     var _this = this;
 
     // Set programacion container
-    _this.programacionContainer =  document.getElementById('page-programacion'),
+    _this.programacionContainer =  document.getElementById('page-programacion');
 
     // Loop through Years -> Months -> Days -> Events
     _this.fillEventsObject();
@@ -224,7 +224,7 @@ Site.Earth = {
     // -- Set Three stuff
 
     // Set camera
-    _this.camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 2000 );
+    _this.camera = new THREE.PerspectiveCamera( 60, document.body.clientWidth / window.innerHeight, 1, 2000 );
     _this.camera.position.z = _this.initialCameraZ;
 
     // Set Scene
@@ -268,7 +268,7 @@ Site.Earth = {
     _this.renderer = new THREE.CanvasRenderer();
     _this.renderer.setClearColor( 0xffffff );
     _this.renderer.setPixelRatio( window.devicePixelRatio );
-    _this.renderer.setSize( window.innerWidth, window.innerHeight );
+    _this.renderer.setSize( document.body.clientWidth, window.innerHeight );
     _this.container.appendChild( _this.renderer.domElement );
   },
 
