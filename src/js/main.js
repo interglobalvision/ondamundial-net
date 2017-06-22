@@ -12,7 +12,7 @@ Site = {
 
     $(document).ready(function () {
       Site.Player.init();
-      Site.MobileOverlay.init();
+      Site.Overlay.init();
     });
 
     Site.StreamChecker.init();
@@ -61,7 +61,7 @@ Site.Overlay = {
     _this.mobileToggle.addEventListener('click', _this.handleToggle.bind(_this));
   },
 
-  handleMobileToggle: function() {
+  handleToggle: function() {
     var _this = this;
 
     if (document.body.classList.contains('overlay-active')) {
