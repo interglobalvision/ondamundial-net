@@ -35,7 +35,8 @@ Site = {
 
 Site.Programacion = {
   eventsPosts: JSON.parse(WP.programacionEvents),
-  eventsObject: new Object(),
+  eventsObject: [],
+  programacionContainer: document.getElementById('page-programacion'),
   init: function() {
     var _this = this;
 
@@ -58,6 +59,7 @@ Site.Programacion = {
 
       if (!_this.eventsObject[year]) {
         _this.eventsObject[year] = [];
+        _this.eventsObject[year].year = year;
         _this.eventsObject[year].months = [];
       }
 
@@ -76,13 +78,103 @@ Site.Programacion = {
       }
 
       _this.eventsObject[year].months[monthNum].days[dayNum].events.push({
-        'hour': hour,
-        'title': el.title,
-        'content': el.content,
+        hour: hour,
+        title: el.title,
+        content: el.content
       });
     });
 
     console.log(_this.eventsObject);
+
+    _this.addEventsToDom();
+  },
+
+  addEventsToDom: function() {
+    var _this = this;
+
+    // Make Years
+    _this.eventsObject.forEach(function(year, yearIndex) {
+
+      // create content element
+      var yearContent = document.createElement('h3');
+      // fill with year
+      yearContent.innerText = year.year;
+
+      // make Year row
+      _this.makeEventsRow(
+        _this.programacionContainer,
+        yearIndex,
+        yearContent
+      );
+
+      // Make Months
+      year.months.forEach(function(month, monthIndex) {
+
+        // create content element
+        var monthContent = document.createElement('h3');
+        // fill with month
+        monthContent.innerText = month.month;
+
+        // make Month row
+        _this.makeEventsRow(
+          document.getElementById(yearIndex),
+          yearIndex + '-' + monthIndex,
+          monthContent
+        );
+
+        // Make Days
+        month.days.forEach(function(day, dayIndex) {
+
+          // create content element
+          var dayContent = document.createElement('h3');
+          // fill with day
+          dayContent.innerText = day.day;
+
+          // make Day row
+          _this.makeEventsRow(
+            document.getElementById(yearIndex + '-' + monthIndex),
+            yearIndex + '-' + monthIndex + '-' + dayIndex,
+            dayContent
+          );
+
+          // Make Events
+          day.events.forEach(function(eventObj, eventIndex) {
+
+            // create content element
+            var eventContent = document.createElement('div');
+            // set element element class
+            eventContent.className = 'programacion-event';
+            // fill with event info
+            eventContent.innerHTML = '<div class="programacion-event-hour">' + eventObj.hour + '</div><div class="programacion-event-info"><h2>' + eventObj.title + '</h2>' + eventObj.content;
+
+            // make Event row
+            _this.makeEventsRow(
+              document.getElementById(yearIndex + '-' + monthIndex + '-' + dayIndex),
+              yearIndex + '-' + monthIndex + '-' + dayIndex + '-' + eventIndex,
+              eventContent
+            );
+
+          });
+
+        });
+
+      });
+
+    });
+  },
+
+  makeEventsRow: function(container, id, rowContent) {
+    var _this = this;
+
+    // create row element
+    var newRow = document.createElement('div');
+
+    newRow.id = id;
+    newRow.className = 'programacion-row';
+    newRow.appendChild(rowContent)
+
+    // append row to container
+    container.appendChild(newRow)
   }
 }
 
