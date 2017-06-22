@@ -3,7 +3,6 @@ get_header();
 ?>
 
 <main id="main-content">
-  <div id="earth-container"></div>
 
   <?php get_template_part('partials/player'); ?>
 

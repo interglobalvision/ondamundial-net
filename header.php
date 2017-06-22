@@ -26,9 +26,11 @@
 <body <?php body_class(); ?>>
 <!--[if lt IE 9]><p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p><![endif]-->
 
-<section id="main-container">
+<div id="earth-container"></div>
 
-  <div id="overlay"></div>
+<div id="overlay"></div>
+
+<section id="main-container">
 
   <header id="header" class="container blend-difference">
     <div class="grid-row align-items-start">
