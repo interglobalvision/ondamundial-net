@@ -145,7 +145,7 @@ Site.Player = {
     _this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
     // Create audio source from <audio>
-    _this.audioSoruce = _this.audioContext.createMediaElementSource(_this.playerElement);
+    _this.audioSource = _this.audioContext.createMediaElementSource(_this.playerElement);
 
     // Create analyser node
     _this.audioAnalyser = _this.audioContext.createAnalyser();
@@ -160,7 +160,7 @@ Site.Player = {
     _this.analyserData = new Uint8Array(_this.audioAnalyser.frequencyBinCount);
 
     // Conect Source to Analyser
-    _this.audioSoruce.connect(_this.audioAnalyser);
+    _this.audioSource.connect(_this.audioAnalyser);
 
     // Conect Analyser to destination. connectin to destination triggers the audio
     _this.audioAnalyser.connect(_this.audioContext.destination);
@@ -241,7 +241,10 @@ Site.Player = {
     // Pass anlyser data to _this.analyserData
     _this.audioAnalyser.getByteTimeDomainData(_this.analyserData);
 
-    return _this.analyserData[0];
+    // from max 128
+    var returnAnalysisValue = 128 - _this.analyserData[0];
+
+    return returnAnalysisValue;
 
   },
 
