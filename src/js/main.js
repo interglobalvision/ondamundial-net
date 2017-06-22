@@ -215,6 +215,8 @@ Site.Earth = {
   canvasHeight: 128,
   textureUrl: WP.themeUrl + '/dist/img/earth_texture.jpg',
   initialCameraZ: 1000,
+  maxCameraZ: 1500,
+  minCameraZ: 500,
   init: function() {
     var _this = this;
 
@@ -301,6 +303,10 @@ Site.Earth = {
     _this.camera.lookAt( _this.scene.position );
     _this.group.rotation.y -= 0.005;
     _this.renderer.render( _this.scene, _this.camera );
+
+    var audioValue = Site.Player.getAnalyserValue();
+
+    _this.camera.position.z = audioValue * 6;
   }
 };
 
@@ -383,7 +389,6 @@ Site.Player = {
     _this.handleOnlineStream = _this.handleOnlineStream.bind(_this);
     _this.handleCanplay = _this.handleCanplay.bind(_this);
     _this.handleOfflineStream = _this.handleOfflineStream.bind(_this);
-    _this.animateTest = _this.animateTest.bind(_this); // TODO: Remove when globe is done
 
     // Subscribe to stream events
     document.addEventListener('streamonline', _this.handleOnlineStream);
@@ -414,7 +419,7 @@ Site.Player = {
     _this.audioAnalyser.fftSize = 32;
     _this.audioAnalyser.minDecibels = -90;
     _this.audioAnalyser.maxDecibels = -10;
-    _this.audioAnalyser.smoothingTimeConstant = 1;
+    _this.audioAnalyser.smoothingTimeConstant = 0.1;
 
     // Init the anaylser data array
     _this.analyserData = new Uint8Array(_this.audioAnalyser.frequencyBinCount);
@@ -471,38 +476,23 @@ Site.Player = {
       // Setup Audio processing
       _this.setupAudioProcessing();
 
-      // Trigger test animation, which actually is not really an animation but its just for testing
-      window.requestAnimationFrame(_this.animateTest); // TODO remove when globe is done
     }
 
   },
 
-  // TODO remove when globe is done
-  animateTest: function() {
-    var _this = this;
-
-    window.requestAnimationFrame(_this.animateTest);
-
-
-    // When the globe is done, from whatever code is animating it we will call `Site.Player.analyserData[2]` to
-    var level = parseInt(_this.getAnalyserValue() / 2);
-    var levelString = new Array(level + 1).join('#');
-
-    console.log(levelString);
-
-  },
-
   // Returns analyser data
-  // TODO: Globe should call this function on every `render()`
-  // Site.Plater.getAnalyserValue();
   getAnalyserValue: function() {
     var _this = this;
+
+    if(_this.audioContext === undefined) {
+      return 128;
+    }
 
     // Pass anlyser data to _this.analyserData
     _this.audioAnalyser.getByteTimeDomainData(_this.analyserData);
 
     // from max 256
-    var returnAnalysisValue = 256 - _this.analyserData[0];
+    var returnAnalysisValue = 256 - _this.analyserData[1];
 
     return returnAnalysisValue;
 
