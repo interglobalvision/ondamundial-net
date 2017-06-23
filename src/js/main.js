@@ -53,6 +53,9 @@ Site.Overlay = {
     _this.mobileToggle = document.getElementById('mobile-overlay-toggle');
     _this.mobileMenu = document.getElementById('mobile-menu');
 
+    _this.desktopOpenPage = document.getElementsByClassName('desktop-page-open');
+    _this.desktopClosePage = document.getElementsByClassName('desktop-page-close');
+
     _this.bindToggles();
   },
 
@@ -60,9 +63,12 @@ Site.Overlay = {
     var _this = this;
 
     _this.mobileToggle.addEventListener('click', _this.handleToggle.bind(_this));
+
+    _this.desktopOpenPage.addEventListener('click', _this.openPage.bind(_this));
+    _this.desktopClosePage.addEventListener('click', _this.closePage.bind(_this));
   },
 
-  handleToggle: function() {
+  toggleOverlay: function() {
     var _this = this;
 
     if (document.body.classList.contains('overlay-active')) {
@@ -71,7 +77,9 @@ Site.Overlay = {
       document.body.classList.add('overlay-active');
     }
 
-  }
+  },
+
+
 };
 
 Site.Programacion = {
