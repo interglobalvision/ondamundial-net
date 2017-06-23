@@ -24,7 +24,7 @@ $metabox = array(
       'name'    => __( 'Evento Actual/Siguente', 'IGV' ),
       'id'      => $prefix . 'radio_evento_current',
       'type'    => 'select',
-      'show_option_none' => false,
+      'show_option_none' => true,
       'options' => get_post_objects(
         array(
           'post_type' => 'evento',
