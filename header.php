@@ -52,15 +52,15 @@
     ?>
             <nav>
               <ul id="desktop-nav-list" class="u-inline-list text-align-center">
-                <li><a href="#" class="desktop-page-open" data-nav="programacion">Programación</a><span class="desktop-page-close"><?php echo url_get_contents(get_template_directory_uri() . '/dist/img/om-page-close.svg'); ?></span></li>
+                <li><a href="#" class="page-nav-item desktop-page-open" data-nav="programacion">Programación</a><span class="desktop-page-close"><?php echo url_get_contents(get_template_directory_uri() . '/dist/img/om-page-close.svg'); ?></span></li>
     <?php
       if (!empty($mixcloud_url)) {
     ?>
-                <li><a href="<?php echo $mixcloud_url; ?>">Archivo</a><span class="desktop-page-close"></span></li>
+                <li><a class="page-nav-item" href="<?php echo $mixcloud_url; ?>">Archivo</a><span class="desktop-page-close"></span></li>
     <?php
       }
     ?>
-                <li><a href="#" class="desktop-page-open" data-nav="sobre">Sobre</a><span class="desktop-page-close"><?php echo url_get_contents(get_template_directory_uri() . '/dist/img/om-page-close.svg'); ?></span></li>
+                <li><a href="#" class="page-nav-item desktop-page-open" data-nav="sobre">Sobre</a><span class="desktop-page-close"><?php echo url_get_contents(get_template_directory_uri() . '/dist/img/om-page-close.svg'); ?></span></li>
               </ul>
             </nav>
           </div>
