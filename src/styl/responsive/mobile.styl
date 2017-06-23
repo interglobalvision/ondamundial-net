@@ -7,6 +7,7 @@ html, body
 body
   background-position: center
   background-size: cover
+  background-image: url(http://naafi.mx/wp-content/uploads/2013/07/12339411_10156772403895497_2260787796472635302_o.jpg)
 
 #overlay
   position: fixed
@@ -19,6 +20,7 @@ body
   opacity: 0
   transition: opacity $transition-duration
   mix-blend-mode: luminosity
+  z-index: 1
 
 .blend-difference
   color: $color-grey
@@ -28,6 +30,15 @@ body
   *::after,
   *::before
     border-top-color: $color-grey
+
+#earth-container
+  position: fixed
+  top: 0
+  left: 0
+  z-index: 0
+  filter: saturate(0)
+  mix-blend-mode: difference
+  pointer-events: none
 
 .overlay-active
   #overlay
@@ -41,6 +52,12 @@ body
       border-top-color: $color-black
 
 // HEADER
+
+#header
+  position: absolute
+  top: 0
+  left: 0
+  z-index: 3
 
 #site-logo
   width: 30px
@@ -86,6 +103,7 @@ body
   opacity: 0
   pointer-events: none
   transition: opacity $transition-duration
+  z-index: 2
 
 .overlay-active
   #mobile-menu
@@ -104,6 +122,7 @@ body
   display: none
 
 #player-container
+  z-index: 3
 
   &.online
     #offline-icon
