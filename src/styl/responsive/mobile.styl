@@ -140,3 +140,23 @@ body
 
     #play-button
       display: none
+
+// ******************************************************
+
+// PAGES
+
+#pages
+  position: fixed
+  top: 0
+  left: 0
+  width: 100vw
+  height: 100vh
+  overflow-y: auto
+
+.page-overlay
+  display: none
+  padding: $margin-large
+  min-height: 100vh
+  background-color: $color-grey
+  &.active
+    display: block
