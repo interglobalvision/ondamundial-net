@@ -14,6 +14,7 @@ function current_event_call($data) {
   // Get event's feat thumbnail
   $event_thumbnail = get_the_post_thumbnail_url($current_event_id);
 
+  // Make the response array
   $response = array(
     'title' => $current_event->post_title,
     'featured_image' => $event_thumbnail,
