@@ -73,13 +73,16 @@ Site.Overlay = {
   bindClicks: function() {
     var _this = this;
 
+    // bind the mobile toggle clicks!
     _this.mobileToggle.addEventListener('click', _this.toggleMobile.bind(_this));
 
     for (var i = 0; i < _this.pageOpen.length; i++) {
+      // bind the page nav item clicks!
       _this.pageOpen[i].addEventListener('click', _this.openPage.bind(_this));
     }
 
     for (var i = 0; i < _this.desktopPageClose.length; i++) {
+      // bind the desktop page close X clicks!
       _this.desktopPageClose[i].addEventListener('click', _this.closePage.bind(_this));
     }
   },
