@@ -54,6 +54,7 @@ Site.Overlay = {
   init: function() {
     var _this = this;
 
+    // GET! ALL THE THINGS!
     _this.pageOverlay = document.getElementsByClassName('page-overlay');
 
     _this.header = document.getElementById('header');
@@ -65,10 +66,11 @@ Site.Overlay = {
 
     _this.desktopPageClose = document.getElementsByClassName('desktop-page-close');
 
-    _this.bindToggles();
+    // BIND CLICKS!
+    _this.bindClicks();
   },
 
-  bindToggles: function() {
+  bindClicks: function() {
     var _this = this;
 
     _this.mobileToggle.addEventListener('click', _this.toggleMobile.bind(_this));
@@ -86,8 +88,10 @@ Site.Overlay = {
     var _this = this;
 
     if (document.body.classList.contains('overlay-active')) {
+      // if the overlay is showing: hide it
       document.body.classList.remove('overlay-active');
     } else {
+      // otherwise: show it
       document.body.classList.add('overlay-active');
     }
 
@@ -96,36 +100,60 @@ Site.Overlay = {
   toggleMobile: function() {
     var _this = this;
 
-    _this.toggleOverlay();
+    // on mobile, the same button closes pages,
+    // and also toggles the mobile menu
 
+    // if there is a page open
     if (document.querySelector('.page-active') !== null) {
+      // close it
       _this.closePage();
+      // and hide the overlay
       _this.toggleOverlay();
+
+    // otherwise, we're toggling the menu
     } else {
+
+      // if the menu is open
       if (_this.mobileMenu.classList.contains('active')) {
+        // close it
         _this.mobileMenu.classList.remove('active');
       } else {
+        // otherwise, open it
         _this.mobileMenu.classList.add('active');
       }
     }
+
+    // and finally, hide or show the overlay
+    _this.toggleOverlay();
   },
 
   openPage: function(event) {
     var _this = this;
 
+    // get the page name from the
+    // clicked <a> data-page attribute
     var pageName = event.target.getAttribute('data-page');
 
-    console.log(event.target);
-
+    // find the page container with that ID
     _this.activePage = document.getElementById('page-' + pageName);
+    // open the page!
     _this.activePage.classList.add('page-active');
 
+    // set the <li> parent of the target <a>
+    // as the active nav item. this displays
+    // in the header as our page title
     _this.activeDesktopNavItem = document.getElementById('desktop-nav-' + pageName);;
     _this.activeDesktopNavItem.classList.add('active');
 
+    // if the mobile menu is active, we know this
+    // click was on a mobile nav item, and we know
+    // the overlay is already active
     if (_this.mobileMenu.classList.contains('active')) {
+      // hide the menu
       _this.mobileMenu.classList.remove('active');
     } else {
+      // otherwise it was a desktop nav item, so
+      // we need to show the overlay
       _this.toggleOverlay();
     }
   },
@@ -133,10 +161,13 @@ Site.Overlay = {
   closePage: function() {
     var _this = this;
 
+    // unset the active <li> nav item
     _this.activeDesktopNavItem.classList.remove('active');
 
+    // hide the active page
     _this.activePage.classList.remove('page-active');
 
+    // hide the overlay
     _this.toggleOverlay();
   },
 
@@ -144,9 +175,13 @@ Site.Overlay = {
     var _this = this;
     var windowWidth = document.body.clientWidth;
 
+    // if we're on desktop size
+    // and the mobile menu is active
     if (windowWidth >= _this.desktopWidth && _this.mobileMenu.classList.contains('active')) {
+      // hide the menu
       _this.mobileMenu.classList.remove('active');
-      document.body.classList.remove('overlay-active');
+      // and hide the overlay
+      _this.toggleOverlay();
     }
   }
 };
