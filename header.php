@@ -46,21 +46,30 @@
             <h1><a href="<?php echo home_url(); ?>"><?php bloginfo('name'); ?></a></h1>
           </div>
 
-          <div class="grid-item desktop-only flex-grow justify-center">
+          <div class="grid-item flex-grow">
     <?php
       $mixcloud_url = IGV_get_option('_igv_site_options', '_igv_mixcloud_url');
     ?>
             <nav>
-              <ul id="desktop-nav-list" class="u-inline-list text-align-center">
-                <li><a href="#" class="page-nav-item desktop-page-open" data-nav="programacion">Programación</a><span class="desktop-page-close"><?php echo url_get_contents(get_template_directory_uri() . '/dist/img/om-page-close.svg'); ?></span></li>
+              <ul id="desktop-nav-list" class="grid-row justify-center align-items-center">
+                <li class="grid-item desktop-nav-item no-gutter" id="desktop-nav-programacion">
+                  <a href="#" class="page-nav-item desktop-page-open js-page-open u-inline-block" data-page="programacion">Programación</a>
+                  <span class="desktop-page-close u-inline-block"><?php echo url_get_contents(get_template_directory_uri() . '/dist/img/om-page-close.svg'); ?></span>
+                </li>
     <?php
       if (!empty($mixcloud_url)) {
     ?>
-                <li><a class="page-nav-item" href="<?php echo $mixcloud_url; ?>">Archivo</a><span class="desktop-page-close"></span></li>
+                <li class="grid-item no-gutter">
+                  <a class="page-nav-item u-inline-block" href="<?php echo $mixcloud_url; ?>">Archivo</a>
+                  <span class="desktop-page-close u-inline-block"></span>
+                </li>
     <?php
       }
     ?>
-                <li><a href="#" class="page-nav-item desktop-page-open" data-nav="sobre">Sobre</a><span class="desktop-page-close"><?php echo url_get_contents(get_template_directory_uri() . '/dist/img/om-page-close.svg'); ?></span></li>
+                <li class="desktop-nav-item grid-item no-gutter" id="desktop-nav-sobre">
+                  <a href="#" class="page-nav-item desktop-page-open js-page-open u-inline-block" data-page="sobre">Sobre</a>
+                  <span class="desktop-page-close u-inline-block"><?php echo url_get_contents(get_template_directory_uri() . '/dist/img/om-page-close.svg'); ?></span>
+                </li>
               </ul>
             </nav>
           </div>
@@ -105,15 +114,15 @@
       <div id="mobile-menu" class="mobile-only page-overlay">
         <nav class="container">
           <ul class="grid-column">
-            <li class="grid-item"><a href="#" class="js-page-toggle mobile-page-toggle" data-nav="programacion">Programación</a></li>
+            <li class="grid-item"><a href="#" class="page-nav-item js-page-open" data-page="programacion">Programación</a></li>
   <?php
     if (!empty($mixcloud_url)) {
   ?>
-            <li class="grid-item"><a href="<?php echo $mixcloud_url; ?>">Archivo</a></li>
+            <li class="grid-item"><a class="page-nav-item" href="<?php echo $mixcloud_url; ?>">Archivo</a></li>
   <?php
     }
   ?>
-            <li class="grid-item"><a href="#" class="js-page-toggle mobile-page-toggle" data-nav="sobre">Sobre</a></li>
+            <li class="grid-item"><a href="#" class="page-nav-item js-page-open" data-page="sobre">Sobre</a></li>
             <li class="grid-item no-gutter">
               <ul class="grid-row align-items-start">
   <?php
