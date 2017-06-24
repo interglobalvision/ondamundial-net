@@ -9,16 +9,19 @@
       stroke: $color-grey
 
 .overlay-active
-  .page-nav-item
-    opacity: 0
-    border-bottom-width: 0px
-  .desktop-page-open.active
-    opacity: 1
+  #desktop-nav-list
+    .page-nav-item
+      opacity: 0
+      border-color: transparent
   .blend-difference
-    .desktop-page-close
-      opacity: 1
-      svg
-        stroke: $color-black
+    #desktop-nav-list
+      .desktop-nav-item.active
+        .desktop-page-close
+          cursor: pointer
+          pointer-events: all
+          opacity: 1
+          svg
+            stroke: $color-black
 
 // ******************************************************
 
@@ -30,11 +33,14 @@
 #header-main
   padding-top: $margin-small
 
-.page-nav-item
-  opacity: 1
-  border-bottom: 2px solid $color-grey
-  transition: opacity border-bottom-width $transition-duration
-  padding-bottom: 2px
+#desktop-nav-list
+  justify-content: center
+  .page-nav-item
+    border-bottom: 2px solid $color-grey
+    padding-bottom: 2px
+    opacity: 1
+    width: auto
+    overflow: visible
 
 .desktop-page-close
   position: relative
