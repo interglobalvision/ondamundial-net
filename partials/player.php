@@ -10,5 +10,6 @@
     </span>
     <span id="stream-status"></span>
     <span id="now-playing"></span>
+    <span id="event-title"></span>
   </p>
 </section>

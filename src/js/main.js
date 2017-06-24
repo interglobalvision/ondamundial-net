@@ -18,6 +18,7 @@ Site = {
     });
 
     Site.StreamChecker.init();
+    Site.EventChecker.init();
   },
 
   onResize: function() {
@@ -512,7 +513,7 @@ Site.Player = {
     _this.playerElement.addEventListener('canplay', _this.handleCanplay);
   },
 
-  handleCanplay: function(event) {
+  handleCanplay: function() {
     var _this = this;
 
     // If the player has never started playing
@@ -628,6 +629,56 @@ Site.Player = {
 
     // Remove `playing` class from the player container
     _this.playerContainer.classList.remove('playing');
+  },
+};
+
+Site.EventChecker = {
+  eventUrl: WP.siteUrl + '/wp-json/igv/current-event',
+  eventCheckInterval: 5000,
+  eventData: {},
+  init: function() {
+    var _this = this;
+
+    // Event title element
+    _this.eventTitle = document.getElementById('event-title');
+
+    _this.startChecker();
+  },
+
+  startChecker: function() {
+    var _this = this;
+
+    // Check the current event
+    _this.checkEvent();
+
+    // Start checker on an interval
+    setInterval(function() {
+      _this.checkEvent();
+    }, _this.eventCheckInterval);
+  },
+
+  // Check the current/next event and update background image and show title
+  checkEvent: function() {
+    var _this = this;
+
+    // Make the ajax request
+    $.getJSON(_this.eventUrl, function(data) {
+      if(data) {
+
+        // Check if new data is different from current one
+        if (_this.eventData['title'] !== data['title']) {
+
+          // Save event data
+          _this.eventData = data;
+
+          // Set background image
+          document.body.style.backgroundImage = 'url(' + data.featured_image + ')';
+
+          // Set current/next show title
+          _this.eventTitle.innerHTML = data.title;
+        }
+      }
+    });
   },
 };
 
