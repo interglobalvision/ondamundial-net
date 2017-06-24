@@ -24,6 +24,7 @@ Site = {
     var _this = this;
 
     Site.Earth.onResize();
+    Site.Overlay.onResize();
   },
 
   fixWidows: function() {
@@ -47,14 +48,22 @@ Site = {
 };
 
 Site.Overlay = {
+  activeNavItem: null,
+  desktopWidth: 1024,
+
   init: function() {
     var _this = this;
+
+    _this.pageOverlay = document.getElementsByClassName('page-overlay');
+
+    _this.header = document.getElementById('header');
 
     _this.mobileToggle = document.getElementById('mobile-overlay-toggle');
     _this.mobileMenu = document.getElementById('mobile-menu');
 
-    _this.desktopOpenPage = document.getElementsByClassName('desktop-page-open');
-    _this.desktopClosePage = document.getElementsByClassName('desktop-page-close');
+    _this.pageOpen = document.getElementsByClassName('js-page-open');
+
+    _this.desktopPageClose = document.getElementsByClassName('desktop-page-close');
 
     _this.bindToggles();
   },
@@ -62,10 +71,15 @@ Site.Overlay = {
   bindToggles: function() {
     var _this = this;
 
-    _this.mobileToggle.addEventListener('click', _this.handleToggle.bind(_this));
+    _this.mobileToggle.addEventListener('click', _this.toggleMobile.bind(_this));
 
-    _this.desktopOpenPage.addEventListener('click', _this.openPage.bind(_this));
-    _this.desktopClosePage.addEventListener('click', _this.closePage.bind(_this));
+    for (var i = 0; i < _this.pageOpen.length; i++) {
+      _this.pageOpen[i].addEventListener('click', _this.openPage.bind(_this));
+    }
+
+    for (var i = 0; i < _this.desktopPageClose.length; i++) {
+      _this.desktopPageClose[i].addEventListener('click', _this.closePage.bind(_this));
+    }
   },
 
   toggleOverlay: function() {
@@ -79,7 +93,62 @@ Site.Overlay = {
 
   },
 
+  toggleMobile: function() {
+    var _this = this;
 
+    _this.toggleOverlay();
+
+    if (document.querySelector('.page-active') !== null) {
+      _this.closePage();
+      _this.toggleOverlay();
+    } else {
+      if (_this.mobileMenu.classList.contains('active')) {
+        _this.mobileMenu.classList.remove('active');
+      } else {
+        _this.mobileMenu.classList.add('active');
+      }
+    }
+  },
+
+  openPage: function(event) {
+    var _this = this;
+
+    var pageName = event.target.getAttribute('data-page');
+
+    console.log(event.target);
+
+    _this.activePage = document.getElementById('page-' + pageName);
+    _this.activePage.classList.add('page-active');
+
+    _this.activeDesktopNavItem = document.getElementById('desktop-nav-' + pageName);;
+    _this.activeDesktopNavItem.classList.add('active');
+
+    if (_this.mobileMenu.classList.contains('active')) {
+      _this.mobileMenu.classList.remove('active');
+    } else {
+      _this.toggleOverlay();
+    }
+  },
+
+  closePage: function() {
+    var _this = this;
+
+    _this.activeDesktopNavItem.classList.remove('active');
+
+    _this.activePage.classList.remove('page-active');
+
+    _this.toggleOverlay();
+  },
+
+  onResize: function() {
+    var _this = this;
+    var windowWidth = document.body.clientWidth;
+
+    if (windowWidth >= _this.desktopWidth && _this.mobileMenu.classList.contains('active')) {
+      _this.mobileMenu.classList.remove('active');
+      document.body.classList.remove('overlay-active');
+    }
+  }
 };
 
 Site.Programacion = {
