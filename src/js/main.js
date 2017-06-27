@@ -25,6 +25,7 @@ Site = {
     var _this = this;
 
     Site.Earth.onResize();
+    Site.EventChecker.onResize();
   },
 
   fixWidows: function() {
@@ -534,7 +535,7 @@ Site.Player = {
     var _this = this;
 
     // If the audioContext is not defined we return 128 which is equal to no-sound
-    if(_this.audioContext === undefined) {
+    if (_this.audioContext === undefined) {
       return 128;
     }
 
@@ -589,7 +590,7 @@ Site.Player = {
       // Reset volume
       _this.playerElement.volume = 0;
 
-      if( _this.playerElement.paused) {
+      if ( _this.playerElement.paused) {
 
         // Play audio element
         _this.playerElement.play();
@@ -642,7 +643,34 @@ Site.EventChecker = {
     // Event title element
     _this.eventTitle = document.getElementById('event-title');
 
+    // Set viewport orientation
+    _this.setViewportLargestDimension();
+
+    // Bind orientationchange
+    _this.setViewportLargestDimension = _this.setViewportLargestDimension.bind(_this);
+
+    // Start checker
     _this.startChecker();
+  },
+
+  setViewportLargestDimension: function() {
+    var _this = this;
+
+    // Check if height is larger than width
+    if (window.innerHeight > document.body.clientWidth) {
+      _this.viewporLargestDimension = {
+        dimension: 'height',
+        size: window.innerHeight
+      };
+
+    } else {
+      _this.viewporLargestDimension = {
+        dimension: 'width',
+        size: document.body.clientWidth,
+      };
+
+    }
+
   },
 
   startChecker: function() {
@@ -663,7 +691,7 @@ Site.EventChecker = {
 
     // Make the ajax request
     $.getJSON(_this.eventUrl, function(data) {
-      if(data) {
+      if (data) {
 
         // Check if new data is different from current one
         if (_this.eventData['title'] !== data['title']) {
@@ -672,14 +700,63 @@ Site.EventChecker = {
           _this.eventData = data;
 
           // Set background image
-          document.body.style.backgroundImage = 'url(' + data.featured_image + ')';
+          _this.setBackground(data.featured_thumbnails);
 
           // Set current/next show title
           _this.eventTitle.innerHTML = data.title;
         }
+      } else {
+
+        // Set event data to false
+        _this.eventData = false;
+
+        // Clear background
+        _this.clearBackground();
       }
     });
   },
+
+  setBackground: function(images) {
+    var _this = this;
+
+    var viewportLargestDimension = _this.viewporLargestDimension.size
+
+    // We set largest image as fallback (last in the array)
+    var background = images[images.length - 1].url;
+
+    // Iterate thru images to find the smallest image capable to fill the screen
+    for(var i = 0; i < images.length; i++) {
+
+      var imageDimension = images[i][_this.viewporLargestDimension.dimension];
+
+      // Check the viewport largest dimension against the image dimension
+      if (imageDimension > viewportLargestDimension) {
+        background = images[i].url;
+        break;
+      }
+    }
+
+    // Set image as background-image in the body
+    document.body.style.backgroundImage = 'url(' + background + ')';
+  },
+
+  clearBackground: function() {
+    var _this = this;
+
+    document.body.style.backgroundImage = '';
+  },
+
+  onResize: function() {
+    var _this = this;
+
+    _this.setViewportLargestDimension();
+
+    // If event data available
+    if(_this.eventData) {
+      // Set background
+      _this.setBackground(_this.eventData.featured_thumbnails);
+    }
+  }
 };
 
 Site.init();

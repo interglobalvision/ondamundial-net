@@ -3,6 +3,9 @@
 function current_event_call($data) {
   $current_event_id = IGV_get_option('_igv_site_options', '_igv_radio_evento_current');
 
+  // Set used thumbnail sizes
+  // NOTE: Order is important, goes from small  to large
+
   $thumbnail_sizes = array(
     '568w', // max-width of iphone 5
     '736w', // max-width of iphone 6 plus
