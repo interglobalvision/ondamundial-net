@@ -1,13 +1,29 @@
+
+// ******************************************************
+
+// BASIC
+
 .blend-difference
   .desktop-page-close
     svg
       stroke: $color-grey
 
 .overlay-active
+  #desktop-nav-list
+    .page-nav-item
+      opacity: 0
+      border-color: transparent
   .blend-difference
-    .desktop-page-close
-      svg
-        stroke: $color-grey
+    #desktop-nav-list
+      .desktop-nav-item.active
+        .desktop-page-close
+          cursor: pointer
+          pointer-events: all
+          opacity: 1
+          svg
+            stroke: $color-black
+
+// ******************************************************
 
 // HEADER
 
@@ -17,14 +33,27 @@
 #header-main
   padding-top: $margin-small
 
+#desktop-nav-list
+  justify-content: center
+  .page-nav-item
+    border-bottom: 2px solid $color-grey
+    padding-bottom: 2px
+    opacity: 1
+    width: auto
+    overflow: visible
+
 .desktop-page-close
   position: relative
-  display: inline-block
   width: $margin-small
   height: $margin-small
+  display: inline-block
   margin: 0 $margin-tiny ($margin-small * -.3)
+  opacity: 0
+  transition: opacity $transition-duration
   svg
-    display: block
-    fill: none
     width: 100%
     height: 100%
+    display: block
+    fill: none
+
+// ******************************************************
