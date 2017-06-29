@@ -746,7 +746,7 @@ Site.Player = {
     _this.playerContainer.classList.remove('online');
 
     // Update marquee status
-    _this.streamStatusText.innerHTML = 'Siguiente: ';
+    _this.streamStatusText.innerHTML = 'Sigue: ';
 
     // Update the marquee text
     _this.nowPlayingText.innerHTML = 'the upcoming show that has to be requested thru ajax';
