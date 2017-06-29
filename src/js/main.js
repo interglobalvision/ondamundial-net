@@ -18,12 +18,14 @@ Site = {
     });
 
     Site.StreamChecker.init();
+    Site.EventChecker.init();
   },
 
   onResize: function() {
     var _this = this;
 
     Site.Earth.onResize();
+    Site.EventChecker.onResize();
     Site.Overlay.onResize();
   },
 
@@ -659,7 +661,7 @@ Site.Player = {
     _this.nowPlayingText.innerHTML = marqueeContent + '</span>';
   },
 
-  handleCanplay: function(event) {
+  handleCanplay: function() {
     var _this = this;
 
     // If the player has never started playing
@@ -680,7 +682,7 @@ Site.Player = {
     var _this = this;
 
     // If the audioContext is not defined we return 128 which is equal to no-sound
-    if(_this.audioContext === undefined) {
+    if (_this.audioContext === undefined) {
       return 128;
     }
 
@@ -735,7 +737,7 @@ Site.Player = {
       // Reset volume
       _this.playerElement.volume = 0;
 
-      if( _this.playerElement.paused) {
+      if ( _this.playerElement.paused) {
 
         // Play audio element
         _this.playerElement.play();
@@ -776,6 +778,161 @@ Site.Player = {
     // Remove `playing` class from the player container
     _this.playerContainer.classList.remove('playing');
   },
+};
+
+Site.EventChecker = {
+  eventUrl: WP.siteUrl + '/wp-json/igv/current-event',
+  eventCheckInterval: 5000,
+  eventData: {},
+  init: function() {
+    var _this = this;
+
+    // Event title element
+    _this.eventTitle = document.getElementById('event-title');
+
+    // Set viewport orientation
+    _this.setViewportLargestDimension();
+
+    // Bind orientationchange
+    _this.setViewportLargestDimension = _this.setViewportLargestDimension.bind(_this);
+
+    // Start checker
+    _this.startChecker();
+  },
+
+  setViewportLargestDimension: function() {
+    var _this = this;
+
+    // Check if height is larger than width
+    if (window.innerHeight > document.body.clientWidth) {
+      _this.viewporLargestDimension = {
+        dimension: 'height',
+        size: window.innerHeight
+      };
+
+    } else {
+      _this.viewporLargestDimension = {
+        dimension: 'width',
+        size: document.body.clientWidth,
+      };
+
+    }
+
+  },
+
+  startChecker: function() {
+    var _this = this;
+
+    // Check the current event
+    _this.checkEvent();
+
+    // Start checker on an interval
+    setInterval(function() {
+      _this.checkEvent();
+    }, _this.eventCheckInterval);
+  },
+
+  // Check the current/next event and update background image and show title
+  checkEvent: function() {
+    var _this = this;
+
+    // Make the ajax request
+    $.getJSON(_this.eventUrl, function(data) {
+      if (data) {
+
+        // Check if new data is different from current one
+        if (_this.eventData['title'] !== data['title']) {
+
+          // Save event data
+          _this.eventData = data;
+
+          // Check if data comes with thumbanils
+          if (data.featured_thumbnails) {
+            // Set background image
+            _this.setBackground(data.featured_thumbnails);
+
+          } else {
+            // Check if we have a fallback image
+            if (typeof WP.fallbackImage !== undefined) {
+              // Set fallback image as background
+              _this.setBackground(WP.fallbackImage);
+
+            } else {
+              // Clear background
+              _this.clearBackground();
+
+            }
+          }
+
+          // Set current/next show title
+          _this.eventTitle.innerHTML = data.title;
+
+        }
+
+      } else {
+
+        // Clear event stuff: background, title, data
+        _this.clearEvent();
+
+      }
+    });
+  },
+
+  setBackground: function(images) {
+    var _this = this;
+
+    var viewportLargestDimension = _this.viewporLargestDimension.size
+
+    // We set largest image as fallback (last in the array)
+    var background = images[images.length - 1].url;
+
+    // Iterate thru images to find the smallest image capable to fill the screen
+    for(var i = 0; i < images.length; i++) {
+
+      var imageDimension = images[i][_this.viewporLargestDimension.dimension];
+
+      // Check the viewport largest dimension against the image dimension
+      if (imageDimension > viewportLargestDimension) {
+        background = images[i].url;
+        break;
+      }
+    }
+
+    // Set image as background-image in the body
+    document.body.style.backgroundImage = 'url(' + background + ')';
+  },
+
+  // Clear event stuff: background, title, data
+  clearEvent: function() {
+    var _this = this;
+
+    // Set event data to false
+    _this.eventData = false;
+
+    // Set current/next show title as empty
+    _this.eventTitle.innerHTML = '';
+
+    // Clear background
+    _this.clearBackground();
+  },
+
+  clearBackground: function() {
+    var _this = this;
+
+    document.body.style.backgroundImage = '';
+  },
+
+  onResize: function() {
+    var _this = this;
+
+    _this.setViewportLargestDimension();
+
+    // If event data available
+    if(_this.eventData) {
+      // Set background
+      _this.setBackground(_this.eventData.featured_thumbnails);
+    }
+  }
 };
 
 Site.init();
