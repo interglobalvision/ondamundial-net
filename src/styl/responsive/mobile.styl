@@ -1,5 +1,8 @@
 $header-height = 106px
-$transition-duration = .3s
+
+// ******************************************************
+
+// BASIC
 
 html, body
   height: 100%
@@ -15,11 +18,11 @@ body
   width: 100vw
   height: 100vh
   background-color: $color-grey
+  z-index: 100
   pointer-events: none
   opacity: 0
   transition: opacity $transition-duration
   mix-blend-mode: luminosity
-  z-index: 1
 
 .blend-difference
   color: $color-grey
@@ -56,7 +59,8 @@ body
   position: absolute
   top: 0
   left: 0
-  z-index: 3
+  width: 100%
+  z-index: 300
 
 #site-logo
   width: 30px
@@ -66,6 +70,30 @@ body
 
 #site-title-holder
   flex-grow: 1
+
+.page-nav-item
+  opacity: 1
+  border-bottom: 2px solid $color-grey
+  transition: opacity $transition-duration, border-color $transition-duration
+  padding-bottom: 2px
+
+#desktop-nav-list
+  justify-content: flex-end
+  .page-nav-item
+    border-bottom: 0
+    opacity: 0
+    width: 0
+    overflow: hidden
+    border-color: transparent
+    padding-bottom: 0
+  .desktop-nav-item.active
+    .desktop-page-open
+      opacity: 1
+      width: auto
+      pointer-events: none
+
+.desktop-page-close
+  opacity: 0
 
 .social-icon
   width: 30px
@@ -102,10 +130,10 @@ body
   opacity: 0
   pointer-events: none
   transition: opacity $transition-duration
-  z-index: 2
-
-.overlay-active
-  #mobile-menu
+  z-index: 200
+  .page-nav-item
+    border-bottom-color: $color-black
+  &.active
     opacity: 1
     pointer-events: all
 
@@ -121,7 +149,7 @@ body
   display: none
 
 #player-container
-  z-index: 3
+  z-index: 300
 
   &.online
     #offline-icon
@@ -139,3 +167,30 @@ body
 
     #play-button
       display: none
+
+// ******************************************************
+
+// PAGES
+
+#pages
+  position: fixed
+  top: 0
+  left: 0
+  width: 100vw
+  height: 100vh
+  overflow-y: auto
+  z-index: 200
+
+.page-overlay
+  position: absolute
+  top: 0
+  width: 100%
+  min-height: 100vh
+  opacity: 0
+  padding: $margin-large
+  transition: opacity $transition-duration
+  padding-top: $header-height
+  pointer-events: none
+  &.page-active
+    pointer-events: all
+    opacity: 1
