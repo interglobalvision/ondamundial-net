@@ -636,17 +636,21 @@ Site.Player = {
     var _this = this;
 
     var marqueeHolder = document.getElementById('now-playing-marquee-holder');
+
+    // get width of marquee holder
     var marqueeWidth = marqueeHolder.offsetWidth;
 
+    // assemble single marquee text element
     var marqueeTextElem = '<span class="now-playing-text">' + marqueeText + '</span>';
 
+    // get width of single marquee text element
     _this.nowPlayingText.innerHTML = marqueeTextElem;
-
     var nowPlayingWidth = _this.nowPlayingText.offsetWidth;
 
     // how many times does marquee text go fit into marquee width
     var intoWindow = Math.round( marqueeWidth / nowPlayingWidth );
 
+    // assemble marquee content
     var marqueeContent = '<span class="now-playing-text-holder">';
 
     // repeat content for 4 times marquee width
