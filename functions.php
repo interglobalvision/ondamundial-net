@@ -22,6 +22,18 @@ function scripts_and_styles_method() {
     'programacionEvents' => get_events_object(),
   );
 
+  // Use OG image as Fallback image
+  $fallback_image_id  = IGV_get_option('_igv_site_options', '_igv_og_image_id');
+
+  // Check if og image id exist
+  if (!empty($fallback_image_id)) {
+    // Get image in diff sizes
+    $fallback_image_sizes = get_attachment_in_sizes($fallback_image_id);
+
+    // Append to javascriptVars
+    $javascriptVars['fallbackImage'] = $fallback_image_sizes;
+  }
+
   wp_enqueue_script('javascript-library', $javascriptLibrary, '', '', true);
 
   wp_register_script('javascript-main', $javascriptMain);

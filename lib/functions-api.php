@@ -3,17 +3,6 @@
 function current_event_call($data) {
   $current_event_id = IGV_get_option('_igv_site_options', '_igv_radio_evento_current');
 
-  // Set used thumbnail sizes
-  // NOTE: Order is important, goes from small  to large
-
-  $thumbnail_sizes = array(
-    '568w', // max-width of iphone 5
-    '736w', // max-width of iphone 6 plus
-    '1024w', // max-widht of ipad
-    '1680w', // macbookpro
-    'original', // original
-  );
-
   // Check if no event is selected
   if (empty($current_event_id)) {
     return false;
@@ -23,26 +12,10 @@ function current_event_call($data) {
   $current_event = get_post($current_event_id);
 
   // Get event's thumbnail id
-  $thumbnail_id = get_post_thumbnail_id($current_event_id);
+  $current_event_thumbnail_id = get_post_thumbnail_id($current_event_id);
 
-  // Init empty array to store the thumbnails and it's sizes
-  $featured_thumbnail_sizes = array();
-
-  foreach($thumbnail_sizes as $size) {
-
-    // Get event's thumbnail url
-    $thumbnail = wp_get_attachment_image_src($thumbnail_id, $size);
-
-    if (!empty($thumbnail)) {
-
-      array_push($featured_thumbnail_sizes, array(
-        'url' => $thumbnail[0],
-        'width' => $thumbnail[1],
-        'height' => $thumbnail[2],
-      ));
-    }
-
-  }
+  // Get event's thumbnail in diff sizes
+  $featured_thumbnail_sizes = get_attachment_in_sizes($current_event_thumbnail_id);
 
   // Make the response array
   $response = array(

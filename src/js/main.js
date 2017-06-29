@@ -699,19 +699,34 @@ Site.EventChecker = {
           // Save event data
           _this.eventData = data;
 
-          // Set background image
-          _this.setBackground(data.featured_thumbnails);
+          // Check if data comes with thumbanils
+          if (data.featured_thumbnails) {
+            // Set background image
+            _this.setBackground(data.featured_thumbnails);
+
+          } else {
+            // Check if we have a fallback image
+            if (typeof WP.fallbackImage !== undefined) {
+              // Set fallback image as background
+              _this.setBackground(WP.fallbackImage);
+
+            } else {
+              // Clear background
+              _this.clearBackground();
+
+            }
+          }
 
           // Set current/next show title
           _this.eventTitle.innerHTML = data.title;
+
         }
+
       } else {
 
-        // Set event data to false
-        _this.eventData = false;
+        // Clear event stuff: background, title, data
+        _this.clearEvent();
 
-        // Clear background
-        _this.clearBackground();
       }
     });
   },
@@ -738,6 +753,20 @@ Site.EventChecker = {
 
     // Set image as background-image in the body
     document.body.style.backgroundImage = 'url(' + background + ')';
+  },
+
+  // Clear event stuff: background, title, data
+  clearEvent: function() {
+    var _this = this;
+
+    // Set event data to false
+    _this.eventData = false;
+
+    // Set current/next show title as empty
+    _this.eventTitle.innerHTML = '';
+
+    // Clear background
+    _this.clearBackground();
   },
 
   clearBackground: function() {

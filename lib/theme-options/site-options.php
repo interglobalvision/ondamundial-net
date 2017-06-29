@@ -47,6 +47,12 @@ $metabox = array(
       )
     ),
     array(
+      'name' => __( 'Imagen fallback del evento', 'IGV' ),
+      'desc' => __( 'Si el evento seleccionado no tiene imagen se usara esta por defecto', 'IGV' ),
+      'id'   => $prefix . 'event_fallback_image',
+      'type' => 'file',
+    ),
+    array(
   		'name' => esc_html__( 'Radio.co URL', 'cmb2' ),
   		'id'   => $prefix . 'radioco_url',
   		'type' => 'text_url',
