@@ -628,9 +628,10 @@ Site.Player = {
       // We subscribe to the `canplay` event from the player
       _this.playerElement.addEventListener('canplay', _this.handleCanplay);
 
-      // Update marquee text
-      _this.buildMarqueeContent(_this.streamData.current_track.title);
     }
+
+    // Update marquee text
+    _this.buildMarqueeContent(_this.streamData.current_track.title);
   },
 
   buildMarqueeContent: function(marqueeText) {
@@ -638,6 +639,12 @@ Site.Player = {
 
     // get width of marquee holder
     var marqueeWidth = _this.marqueeHolder.offsetWidth;
+
+    // Check if event title is available
+    if (typeof Site.EventChecker.eventData.title !== 'undefined') {
+      // Append event title to the marquee text
+      marqueeText = Site.EventChecker.eventData.title + ': ' + marqueeText;
+    }
 
     // assemble single marquee text element
     var marqueeTextElem = '<span class="now-playing-text">' + marqueeText + '</span>';
@@ -787,9 +794,6 @@ Site.EventChecker = {
   init: function() {
     var _this = this;
 
-    // Event title element
-    _this.eventTitle = document.getElementById('event-title');
-
     // Set viewport orientation
     _this.setViewportLargestDimension();
 
@@ -864,9 +868,6 @@ Site.EventChecker = {
             }
           }
 
-          // Set current/next show title
-          _this.eventTitle.innerHTML = data.title;
-
         }
 
       } else {
@@ -908,9 +909,6 @@ Site.EventChecker = {
 
     // Set event data to false
     _this.eventData = false;
-
-    // Set current/next show title as empty
-    _this.eventTitle.innerHTML = '';
 
     // Clear background
     _this.clearBackground();
