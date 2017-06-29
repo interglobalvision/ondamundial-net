@@ -13,7 +13,7 @@ Site = {
     $(document).ready(function () {
       Site.Player.init();
       Site.Overlay.init();
-      Site.Earth.init();
+      //Site.Earth.init();
       Site.Programacion.init();
     });
 
@@ -531,6 +531,7 @@ Site.Player = {
   fftSize: 32,
   freqBand: 1,
   streamUrl: 'http://streaming.radio.co/s0b5e9c02c/listen',
+  streamData: {},
   init: function() {
     var _this = this;
 
@@ -558,7 +559,6 @@ Site.Player = {
     // Subscribe to clic on player controls
     _this.playButton.addEventListener('click', _this.play.bind(_this));
     _this.pauseButton.addEventListener('click', _this.pause.bind(_this));
-
   },
 
   /*
@@ -598,33 +598,91 @@ Site.Player = {
   handleOnlineStream: function(event) {
     var _this = this;
 
-    var data = event.detail;
+    if (typeof _this.streamData.current_track === 'undefined' || event.detail.current_track.title !== _this.streamData.current_track.title) {
 
-    // Add class `online` to the player container
-    _this.playerContainer.classList.add('online');
+      _this.streamData = event.detail;
 
-    // Check if player src is empty
-    if (_this.playerSrc.src === '') {
+      // Add class `online` to the player container
+      _this.playerContainer.classList.add('online');
 
-      // Add src
-      _this.playerSrc.src = _this.streamUrl;
+      // Check if player src is empty
+      if (_this.playerSrc.src === '') {
 
-      // Disable player CORS restriction
-      _this.playerElement.crossOrigin = 'anonymous';
+        // Add src
+        _this.playerSrc.src = _this.streamUrl;
 
-      // Load src
-      _this.playerElement.load();
+        // Disable player CORS restriction
+        _this.playerElement.crossOrigin = 'anonymous';
 
+        // Load src
+        _this.playerElement.load();
+
+      }
+
+      // Update marquee status
+      _this.streamStatusText.innerHTML = 'Ahora: ';
+
+      // We subscribe to the `canplay` event from the player
+      _this.playerElement.addEventListener('canplay', _this.handleCanplay);
+
+      // Update Now playing
+      _this.buildMarquee(_this.streamData.current_track.title);
+    }
+  },
+
+  buildMarquee: function(marqueeText) {
+    var _this = this;
+
+    var windowWidth = document.body.clientWidth;
+
+    var marqueeTextElem = '<span class="now-playing-text">' + marqueeText + '</span>';
+
+    _this.nowPlayingText.innerHTML = marqueeTextElem;
+
+    var nowPlayingWidth = _this.nowPlayingText.offsetWidth;
+
+    var intoWindow = Math.round( windowWidth / nowPlayingWidth );
+
+    var marqueeContent = '';
+
+    // this can be simplified
+    for (var i = 0; i < 4; i++) {
+      marqueeContent = marqueeContent + '<span class="now-playing-text-holder">';
+
+      for (var j = 0; j < intoWindow; j++) {
+        marqueeContent = marqueeContent + marqueeTextElem;
+      }
+
+      marqueeContent = marqueeContent + '</span>';
     }
 
-    // Update marquee status
-    _this.streamStatusText.innerHTML = 'Ahora: ';
+    _this.nowPlayingText.innerHTML = marqueeContent;
 
-    // Update Now playing
-    _this.nowPlayingText.innerHTML = data.current_track.title;
+    $.keyframe.define([{
+      name: 'marquee',
+      from: {
+        'transform' : 'translateX(-25%)'
+      },
+      to: {
+        'left' : 'translateX(25%)'
+      }
+    }]);
 
-    // We subscribe to the `canplay` event from the player
-    _this.playerElement.addEventListener('canplay', _this.handleCanplay);
+
+    _this.playMarquee();
+  },
+
+  playMarquee: function() {
+    var $nowPlaying = $('#now-playing-marquee');
+
+    $nowPlaying.playKeyframe({
+      name: 'marquee', // name of the keyframe you want to bind to the selected element
+      duration: '10s', // [optional, default: 0, in ms] how long you want it to last in milliseconds
+      timingFunction: 'linear', // [optional, default: ease] specifies the speed curve of the animation
+      iterationCount: 'infinite',
+      delay: '0s'
+    });
+
   },
 
   handleCanplay: function(event) {
