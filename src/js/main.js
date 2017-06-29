@@ -533,6 +533,7 @@ Site.Player = {
   fftSize: 32,
   freqBand: 1,
   streamUrl: 'http://streaming.radio.co/s0b5e9c02c/listen',
+  streamData: {},
   init: function() {
     var _this = this;
 
@@ -547,6 +548,7 @@ Site.Player = {
     _this.pauseButton =  document.getElementById('pause-button');
     _this.streamStatusText =  document.getElementById('stream-status');
     _this.nowPlayingText =  document.getElementById('now-playing');
+    _this.marqueeHolder = document.getElementById('now-playing-marquee-holder');
 
     // Bind event handlers
     _this.handleOnlineStream = _this.handleOnlineStream.bind(_this);
@@ -560,7 +562,6 @@ Site.Player = {
     // Subscribe to clic on player controls
     _this.playButton.addEventListener('click', _this.play.bind(_this));
     _this.pauseButton.addEventListener('click', _this.pause.bind(_this));
-
   },
 
   /*
@@ -600,33 +601,64 @@ Site.Player = {
   handleOnlineStream: function(event) {
     var _this = this;
 
-    var data = event.detail;
+    if (typeof _this.streamData.current_track === 'undefined' || event.detail.current_track.title !== _this.streamData.current_track.title) {
 
-    // Add class `online` to the player container
-    _this.playerContainer.classList.add('online');
+      _this.streamData = event.detail;
 
-    // Check if player src is empty
-    if (_this.playerSrc.src === '') {
+      // Add class `online` to the player container
+      _this.playerContainer.classList.add('online');
 
-      // Add src
-      _this.playerSrc.src = _this.streamUrl;
+      // Check if player src is empty
+      if (_this.playerSrc.src === '') {
 
-      // Disable player CORS restriction
-      _this.playerElement.crossOrigin = 'anonymous';
+        // Add src
+        _this.playerSrc.src = _this.streamUrl;
 
-      // Load src
-      _this.playerElement.load();
+        // Disable player CORS restriction
+        _this.playerElement.crossOrigin = 'anonymous';
 
+        // Load src
+        _this.playerElement.load();
+
+      }
+
+      // Update player status
+      _this.streamStatusText.innerHTML = 'Ahora: ';
+
+      // We subscribe to the `canplay` event from the player
+      _this.playerElement.addEventListener('canplay', _this.handleCanplay);
+
+      // Update marquee text
+      _this.buildMarqueeContent(_this.streamData.current_track.title);
+    }
+  },
+
+  buildMarqueeContent: function(marqueeText) {
+    var _this = this;
+
+    // get width of marquee holder
+    var marqueeWidth = _this.marqueeHolder.offsetWidth;
+
+    // assemble single marquee text element
+    var marqueeTextElem = '<span class="now-playing-text">' + marqueeText + '</span>';
+
+    // get width of single marquee text element
+    _this.nowPlayingText.innerHTML = marqueeTextElem;
+    var nowPlayingWidth = _this.nowPlayingText.offsetWidth;
+
+    // how many times does marquee text go fit into marquee width
+    var intoWindow = Math.round( marqueeWidth / nowPlayingWidth );
+
+    // assemble marquee content
+    var marqueeContent = '<span class="now-playing-text-holder">';
+
+    // repeat content for 4 times marquee width
+    for (var i = 0; i < (intoWindow * 4); i++) {
+      marqueeContent = marqueeContent + marqueeTextElem;
     }
 
-    // Update marquee status
-    _this.streamStatusText.innerHTML = 'Ahora: ';
-
-    // Update Now playing
-    _this.nowPlayingText.innerHTML = data.current_track.title;
-
-    // We subscribe to the `canplay` event from the player
-    _this.playerElement.addEventListener('canplay', _this.handleCanplay);
+    // add content to marquee
+    _this.nowPlayingText.innerHTML = marqueeContent + '</span>';
   },
 
   handleCanplay: function() {
@@ -688,7 +720,7 @@ Site.Player = {
     _this.playerContainer.classList.remove('online');
 
     // Update marquee status
-    _this.streamStatusText.innerHTML = 'Siguiente: ';
+    _this.streamStatusText.innerHTML = 'Sigue: ';
 
     // Update the marquee text
     _this.nowPlayingText.innerHTML = 'the upcoming show that has to be requested thru ajax';
