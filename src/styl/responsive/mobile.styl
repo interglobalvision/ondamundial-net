@@ -68,6 +68,13 @@ body
 
 #site-title-holder
   flex-grow: 1
+  white-space: nowrap
+  transition: opacity $transition-duration
+
+.overlay-active
+  #site-title-holder
+    width: 0
+    opacity: 0
 
 .page-nav-item
   opacity: 1
@@ -241,8 +248,12 @@ body
   min-height: 100vh
   opacity: 0
   transition: opacity $transition-duration
-  padding-top: $header-height
+  padding-top: $header-height + $margin-basic
   pointer-events: none
   &.page-active
     pointer-events: all
     opacity: 1
+
+@media screen and (orientation: landscape)
+  .page-overlay
+    padding-top: $header-height
