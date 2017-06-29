@@ -546,6 +546,7 @@ Site.Player = {
     _this.pauseButton =  document.getElementById('pause-button');
     _this.streamStatusText =  document.getElementById('stream-status');
     _this.nowPlayingText =  document.getElementById('now-playing');
+    _this.marqueeHolder = document.getElementById('now-playing-marquee-holder');
 
     // Bind event handlers
     _this.handleOnlineStream = _this.handleOnlineStream.bind(_this);
@@ -635,10 +636,8 @@ Site.Player = {
   buildMarqueeContent: function(marqueeText) {
     var _this = this;
 
-    var marqueeHolder = document.getElementById('now-playing-marquee-holder');
-
     // get width of marquee holder
-    var marqueeWidth = marqueeHolder.offsetWidth;
+    var marqueeWidth = _this.marqueeHolder.offsetWidth;
 
     // assemble single marquee text element
     var marqueeTextElem = '<span class="now-playing-text">' + marqueeText + '</span>';
