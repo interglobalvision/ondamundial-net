@@ -68,22 +68,25 @@ body
 
 #site-title-holder
   flex-grow: 1
+  white-space: nowrap
+  transition: opacity $transition-duration
+
+.overlay-active
+  #site-title-holder
+    width: 0
+    opacity: 0
 
 .page-nav-item
   opacity: 1
-  border-bottom: 2px solid $color-grey
   transition: opacity $transition-duration, border-color $transition-duration
-  padding-bottom: 2px
 
 #desktop-nav-list
   justify-content: flex-end
   .page-nav-item
-    border-bottom: 0
     opacity: 0
     width: 0
     overflow: hidden
     border-color: transparent
-    padding-bottom: 0
   .desktop-nav-item.active
     .desktop-page-open
       opacity: 1
@@ -93,8 +96,17 @@ body
 .desktop-page-close
   opacity: 0
 
-.social-icon
+a.social-icon-holder
+  position: relative
+  display: block
   width: 30px
+  height: 30px
+
+.social-icon
+  position: absolute
+  width: 30px
+  top: 0
+  left: 0
 
 #mobile-overlay-toggle
   position: relative
@@ -123,8 +135,6 @@ body
 
 #mobile-menu
   z-index: 200
-  .page-nav-item
-    border-bottom-color: $color-black
   &.active
     opacity: 1
     pointer-events: all
@@ -241,8 +251,12 @@ body
   min-height: 100vh
   opacity: 0
   transition: opacity $transition-duration
-  padding-top: $header-height
+  padding-top: $header-height + $margin-basic
   pointer-events: none
   &.page-active
     pointer-events: all
     opacity: 1
+
+@media screen and (orientation: landscape)
+  .page-overlay
+    padding-top: $header-height
