@@ -13,7 +13,7 @@ Site = {
     $(document).ready(function () {
       Site.Player.init();
       Site.Overlay.init();
-      //Site.Earth.init();
+      Site.Earth.init();
       Site.Programacion.init();
     });
 
