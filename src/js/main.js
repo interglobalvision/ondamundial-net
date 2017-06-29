@@ -633,7 +633,10 @@ Site.Player = {
   buildMarquee: function(marqueeText) {
     var _this = this;
 
-    var windowWidth = document.body.clientWidth;
+    //var windowWidth = document.body.clientWidth;
+    var marqueeHolder = document.getElementById('now-playing-marquee-holder');
+    var marqueeWidth = marqueeHolder.offsetWidth;
+    console.log(marqueeWidth);
 
     var marqueeTextElem = '<span class="now-playing-text">' + marqueeText + '</span>';
 
@@ -641,22 +644,20 @@ Site.Player = {
 
     var nowPlayingWidth = _this.nowPlayingText.offsetWidth;
 
-    var intoWindow = Math.round( windowWidth / nowPlayingWidth );
+    var intoWindow = Math.round( marqueeWidth / nowPlayingWidth );
 
-    var marqueeContent = '';
+    var marqueeContent = '<span class="now-playing-text-holder">';
 
     // this can be simplified
-    for (var i = 0; i < 4; i++) {
-      marqueeContent = marqueeContent + '<span class="now-playing-text-holder">';
-
-      for (var j = 0; j < intoWindow; j++) {
-        marqueeContent = marqueeContent + marqueeTextElem;
-      }
-
-      marqueeContent = marqueeContent + '</span>';
+    for (var i = 0; i < (intoWindow * 4); i++) {
+      marqueeContent = marqueeContent + marqueeTextElem;
     }
 
-    _this.nowPlayingText.innerHTML = marqueeContent;
+    _this.nowPlayingText.innerHTML = marqueeContent + '</span>';
+
+    /*for (var i = 0; i < (intoWindow * 4); i++) {
+      _this.nowPlayingText.innerHTML = _this.nowPlayingText.innerHTML + marqueeTextElem;
+    }*/
 
     $.keyframe.define([{
       name: 'marquee',
