@@ -12,7 +12,7 @@
         </span>
       </div>
       <div id="player-status" class="grid-item grid-row flex-grow">
-        <span id="stream-status" class="grid-item font-averta font-size-large no-gutter"></span>
+        <span id="stream-status" class="grid-item font-averta font-size-large no-gutter">Sigue: </span>
         <div id="now-playing-marquee-holder" class="grid-item flex-grow">
           <div id="now-playing-marquee" class="grid-column justify-center">
             <span id="now-playing" class="font-size-mid"></span>
