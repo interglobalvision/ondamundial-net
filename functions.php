@@ -22,8 +22,8 @@ function scripts_and_styles_method() {
     'programacionEvents' => get_events_object(),
   );
 
-  // Use OG image as Fallback image
-  $fallback_image_id  = IGV_get_option('_igv_site_options', '_igv_og_image_id');
+  // Event fallback images, used for events without image
+  $fallback_image_id  = IGV_get_option('_igv_site_options', '_igv_event_fallback_image_id');
 
   // Check if og image id exist
   if (!empty($fallback_image_id)) {
