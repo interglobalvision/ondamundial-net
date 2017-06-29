@@ -5,8 +5,25 @@ $header-height = 140px
 #site-logo
   width: 40px
 
-#header-main
-  padding-top: $margin-small
-
 #mobile-menu
   top: $header-height
+
+#mobile-overlay-toggle
+  width: 30px
+  height: 20px
+
+.overlay-active
+  #mobile-overlay-toggle
+    &::before
+      transform: translateY(7px) rotate(45deg)
+    &::after
+      transform: translateY(-7px) rotate(-45deg)
+
+#desktop-nav-holder
+  flex-grow: 1
+
+#stream-status
+  width: auto
+
+.player-icon
+  height: 30px

@@ -8,6 +8,7 @@ html, body
   height: 100%
 
 body
+  background-color: $color-grey
   background-position: center
   background-size: cover
   background-image: url(http://naafi.mx/wp-content/uploads/2013/07/12339411_10156772403895497_2260787796472635302_o.jpg)
@@ -168,21 +169,42 @@ body
   flex-wrap: nowrap
 
 #player-status
-  white-space: nowrap
+  flex-wrap: nowrap
 
 #player-control-holder
   width: 40px
   text-align: center
 
 .player-icon
-  height: 30px
+  height: 24px
+
+#stream-status
+  width: 0
+  overflow-x: hidden
+
+#now-playing-marquee-holder
+  position: relative
+  overflow-x: hidden
+
+#marquee-mask
+  position: absolute
+  width: 100%
+  height: 100%
+  top: 0
+  right: 0
+  bottom: 0
+  left: 0
+  background-image: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 11%, rgba(0,0,0,0) 89%, rgba(0,0,0,1) 100%)
 
 #now-playing-marquee
-  position:fixed
+  position: absolute
+  top: 0
   bottom: 0
   left: -50%
-  height: 100px
   width: auto
+
+#now-playing
+  white-space: nowrap
 
 .now-playing-text
   padding-right: $margin-small
