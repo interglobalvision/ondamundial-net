@@ -619,24 +619,24 @@ Site.Player = {
 
       }
 
-      // Update marquee status
+      // Update player status
       _this.streamStatusText.innerHTML = 'Ahora: ';
 
       // We subscribe to the `canplay` event from the player
       _this.playerElement.addEventListener('canplay', _this.handleCanplay);
 
-      // Update Now playing
-      _this.buildMarquee(_this.streamData.current_track.title);
+      // Update marquee text
+      _this.buildMarqueeContent(_this.streamData.current_track.title);
+      _this.defineMarqueeKeyframes();
+      _this.playMarquee();
     }
   },
 
-  buildMarquee: function(marqueeText) {
+  buildMarqueeContent: function(marqueeText) {
     var _this = this;
 
-    //var windowWidth = document.body.clientWidth;
     var marqueeHolder = document.getElementById('now-playing-marquee-holder');
     var marqueeWidth = marqueeHolder.offsetWidth;
-    console.log(marqueeWidth);
 
     var marqueeTextElem = '<span class="now-playing-text">' + marqueeText + '</span>';
 
@@ -644,21 +644,21 @@ Site.Player = {
 
     var nowPlayingWidth = _this.nowPlayingText.offsetWidth;
 
+    // how many times does marquee text go fit into marquee width
     var intoWindow = Math.round( marqueeWidth / nowPlayingWidth );
 
     var marqueeContent = '<span class="now-playing-text-holder">';
 
-    // this can be simplified
+    // repeat content for 4 times marquee width
     for (var i = 0; i < (intoWindow * 4); i++) {
       marqueeContent = marqueeContent + marqueeTextElem;
     }
 
+    // add content to marquee
     _this.nowPlayingText.innerHTML = marqueeContent + '</span>';
+  },
 
-    /*for (var i = 0; i < (intoWindow * 4); i++) {
-      _this.nowPlayingText.innerHTML = _this.nowPlayingText.innerHTML + marqueeTextElem;
-    }*/
-
+  defineMarqueeKeyframes: function() {
     $.keyframe.define([{
       name: 'marquee',
       from: {
@@ -668,18 +668,15 @@ Site.Player = {
         'left' : 'translateX(25%)'
       }
     }]);
-
-
-    _this.playMarquee();
   },
 
   playMarquee: function() {
     var $nowPlaying = $('#now-playing-marquee');
 
     $nowPlaying.playKeyframe({
-      name: 'marquee', // name of the keyframe you want to bind to the selected element
-      duration: '10s', // [optional, default: 0, in ms] how long you want it to last in milliseconds
-      timingFunction: 'linear', // [optional, default: ease] specifies the speed curve of the animation
+      name: 'marquee',
+      duration: '10s',
+      timingFunction: 'linear',
       iterationCount: 'infinite',
       delay: '0s'
     });
