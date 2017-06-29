@@ -186,6 +186,28 @@ body
   position: relative
   overflow-x: hidden
 
+#now-playing-marquee
+  position: absolute
+  top: 0
+  bottom: 0
+  left: -50%
+  width: auto
+  animation: marquee-slide 10s linear 0s infinite
+
+@keyframes marquee-slide
+  from
+    transform: translateX(-25%)
+  to
+    transform: translateX(0%)
+
+#now-playing
+  white-space: nowrap
+
+.now-playing-text
+  padding-right: $margin-small
+  &::after
+    content: ' . . . '
+
 #marquee-mask
   position: absolute
   width: 100%
@@ -199,21 +221,6 @@ body
 .overlay-active
   #player-status
     opacity: 0
-
-#now-playing-marquee
-  position: absolute
-  top: 0
-  bottom: 0
-  left: -50%
-  width: auto
-
-#now-playing
-  white-space: nowrap
-
-.now-playing-text
-  padding-right: $margin-small
-  &::after
-    content: ' . . . '
 
 // ******************************************************
 

@@ -628,8 +628,6 @@ Site.Player = {
 
       // Update marquee text
       _this.buildMarqueeContent(_this.streamData.current_track.title);
-      _this.defineMarqueeKeyframes();
-      _this.playMarquee();
     }
   },
 
@@ -659,31 +657,6 @@ Site.Player = {
 
     // add content to marquee
     _this.nowPlayingText.innerHTML = marqueeContent + '</span>';
-  },
-
-  defineMarqueeKeyframes: function() {
-    $.keyframe.define([{
-      name: 'marquee',
-      from: {
-        'transform' : 'translateX(-25%)'
-      },
-      to: {
-        'left' : 'translateX(25%)'
-      }
-    }]);
-  },
-
-  playMarquee: function() {
-    var $nowPlaying = $('#now-playing-marquee');
-
-    $nowPlaying.playKeyframe({
-      name: 'marquee',
-      duration: '10s',
-      timingFunction: 'linear',
-      iterationCount: 'infinite',
-      delay: '0s'
-    });
-
   },
 
   handleCanplay: function(event) {
