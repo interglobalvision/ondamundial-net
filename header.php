@@ -84,19 +84,19 @@
     <?php
       if (!empty($facebook_url)) {
     ?>
-              <li class="grid-item"><a href="<?php echo $facebook_url; ?>"><?php echo url_get_contents(get_template_directory_uri() . '/dist/img/social-facebook.svg'); ?></a></li>
+              <li class="grid-item"><a href="<?php echo $facebook_url; ?>" class="social-icon-holder"><?php echo url_get_contents(get_template_directory_uri() . '/dist/img/social-facebook.svg'); ?></a></li>
     <?php
       }
 
       if (!empty($twitter_handle)) {
     ?>
-              <li class="grid-item"><a href="https://www.twitter.com/<?php echo $twitter_handle; ?>"><?php echo url_get_contents(get_template_directory_uri() . '/dist/img/social-twitter.svg'); ?></a></li>
+              <li class="grid-item"><a href="https://www.twitter.com/<?php echo $twitter_handle; ?>" class="social-icon-holder"><?php echo url_get_contents(get_template_directory_uri() . '/dist/img/social-twitter.svg'); ?></a></li>
     <?php
       }
 
       if (!empty($instagram_handle)) {
     ?>
-              <li class="grid-item"><a href="https://www.instagram.com/<?php echo $instagram_handle; ?>"><?php echo url_get_contents(get_template_directory_uri() . '/dist/img/social-instagram.svg'); ?></a></li>
+              <li class="grid-item"><a href="https://www.instagram.com/<?php echo $instagram_handle; ?>" class="social-icon-holder"><?php echo url_get_contents(get_template_directory_uri() . '/dist/img/social-instagram.svg'); ?></a></li>
     <?php
       }
     ?>
@@ -128,19 +128,19 @@
   <?php
     if (!empty($facebook_url)) {
   ?>
-                <li class="grid-item"><a href="<?php echo $facebook_url; ?>"><?php echo url_get_contents(get_template_directory_uri() . '/dist/img/social-facebook.svg'); ?></a></li>
+                <li class="grid-item"><a href="<?php echo $facebook_url; ?>" class="social-icon-holder"><?php echo url_get_contents(get_template_directory_uri() . '/dist/img/social-facebook.svg'); ?></a></li>
   <?php
     }
 
     if (!empty($twitter_handle)) {
   ?>
-                <li class="grid-item"><a href="https://www.twitter.com/<?php echo $twitter_handle; ?>"><?php echo url_get_contents(get_template_directory_uri() . '/dist/img/social-twitter.svg'); ?></a></li>
+                <li class="grid-item"><a href="https://www.twitter.com/<?php echo $twitter_handle; ?>" class="social-icon-holder"><?php echo url_get_contents(get_template_directory_uri() . '/dist/img/social-twitter.svg'); ?></a></li>
   <?php
     }
 
     if (!empty($instagram_handle)) {
   ?>
-                <li class="grid-item"><a href="https://www.instagram.com/<?php echo $instagram_handle; ?>"><?php echo url_get_contents(get_template_directory_uri() . '/dist/img/social-instagram.svg'); ?></a></li>
+                <li class="grid-item"><a href="https://www.instagram.com/<?php echo $instagram_handle; ?>" class="social-icon-holder"><?php echo url_get_contents(get_template_directory_uri() . '/dist/img/social-instagram.svg'); ?></a></li>
   <?php
     }
   ?>
