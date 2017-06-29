@@ -13,6 +13,8 @@ function scripts_and_styles_method() {
     $javascriptMain = $templateuri . '/dist/js/main.min.js';
   }
 
+  $jQueryKeyframes = $templateuri . '/dist/js/jQuery.Keyframes.min.js';
+
   $is_admin = current_user_can('administrator') ? 1 : 0;
 
   $javascriptVars = array(
@@ -23,6 +25,8 @@ function scripts_and_styles_method() {
   );
 
   wp_enqueue_script('javascript-library', $javascriptLibrary, '', '', true);
+
+  wp_enqueue_script('javascript-keyframes', $jQueryKeyframes, '', '', true);
 
   wp_register_script('javascript-main', $javascriptMain);
   wp_localize_script('javascript-main', 'WP', $javascriptVars);
