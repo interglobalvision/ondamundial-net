@@ -8,6 +8,7 @@ html, body
   height: 100%
 
 body
+  background-color: $color-grey
   background-position: center
   background-size: cover
   background-image: url(http://naafi.mx/wp-content/uploads/2013/07/12339411_10156772403895497_2260787796472635302_o.jpg)
@@ -57,7 +58,7 @@ body
 // HEADER
 
 #header
-  position: absolute
+  position: fixed
   top: 0
   left: 0
   width: 100%
@@ -65,9 +66,6 @@ body
 
 #site-logo
   width: 30px
-
-#header-main
-  padding-top: $margin-small
 
 #site-title-holder
   flex-grow: 1
@@ -101,8 +99,9 @@ body
 
 #mobile-overlay-toggle
   position: relative
-  width: 30px
-  height: 20px
+  width: 24px
+  height: 18px
+  z-index: 300
   &::before,
   &::after
     position: absolute
@@ -119,18 +118,11 @@ body
 .overlay-active
   #mobile-overlay-toggle
     &::before
-      transform: translateY(7px) rotate(45deg)
+      transform: translateY(6px) rotate(45deg)
     &::after
-      transform: translateY(-7px) rotate(-45deg)
+      transform: translateY(-6px) rotate(-45deg)
 
 #mobile-menu
-  position: fixed
-  top: $header-height
-  left: 0
-  width: 100vw
-  opacity: 0
-  pointer-events: none
-  transition: opacity $transition-duration
   z-index: 200
   .page-nav-item
     border-bottom-color: $color-black
@@ -150,6 +142,10 @@ body
   display: none
 
 #player-container
+  position: fixed
+  bottom: 0
+  left: 0
+  width: 100vw
   z-index: 300
 
   &.online
@@ -168,6 +164,63 @@ body
 
     #play-button
       display: none
+
+#player-row
+  flex-wrap: nowrap
+
+#player-status
+  flex-wrap: nowrap
+
+#player-control-holder
+  width: 40px
+  text-align: center
+
+.player-icon
+  height: 24px
+
+#stream-status
+  width: 0
+  overflow-x: hidden
+
+#now-playing-marquee-holder
+  position: relative
+  overflow-x: hidden
+
+#now-playing-marquee
+  position: absolute
+  top: 0
+  bottom: 0
+  left: -50%
+  width: auto
+  animation: marquee-slide 10s linear 0s infinite
+
+@keyframes marquee-slide
+  from
+    transform: translateX(-25%)
+  to
+    transform: translateX(0%)
+
+#now-playing
+  white-space: nowrap
+
+.now-playing-text
+  padding-right: $margin-small
+  &::after
+    content: ' . . . '
+
+#marquee-mask
+  position: absolute
+  width: 100%
+  height: 100%
+  top: 0
+  right: 0
+  bottom: 0
+  left: 0
+  background-image: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 25%, rgba(0,0,0,0) 90%, rgba(0,0,0,1) 100%)
+
+.overlay-active
+  #player-status
+    opacity: 0
 
 // ******************************************************
 
@@ -188,7 +241,6 @@ body
   width: 100%
   min-height: 100vh
   opacity: 0
-  padding: $margin-large
   transition: opacity $transition-duration
   padding-top: $header-height
   pointer-events: none

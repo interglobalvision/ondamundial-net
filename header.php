@@ -32,7 +32,7 @@
 
 <section id="main-container">
 
-  <header id="header" class="blend-difference">
+  <header id="header" class="blend-difference font-size-mid">
     <div class="container">
       <div class="grid-row align-items-start">
 
@@ -40,13 +40,13 @@
           <?php echo url_get_contents(get_template_directory_uri() . '/dist/img/om-logo.svg'); ?>
         </div>
 
-        <div id="header-main" class="grid-item flex-grow grid-row align-items-center no-gutter">
+        <div id="header-main" class="padding-top-small grid-item flex-grow grid-row align-items-center no-gutter">
 
           <div id="site-title-holder" class="grid-item">
-            <h1><a href="<?php echo home_url(); ?>"><?php bloginfo('name'); ?></a></h1>
+            <h1 class="font-size-large font-averta"><a href="<?php echo home_url(); ?>"><?php bloginfo('name'); ?></a></h1>
           </div>
 
-          <div class="grid-item flex-grow">
+          <div id="desktop-nav-holder" class="grid-item">
     <?php
       $mixcloud_url = IGV_get_option('_igv_site_options', '_igv_mixcloud_url');
     ?>
