@@ -199,7 +199,7 @@ Site.Programacion = {
     var _this = this;
 
     // Set programacion container
-    _this.programacionContainer =  document.getElementById('page-programacion');
+    _this.programacionContainer =  document.getElementById('programacion-container');
 
     // Loop through Years -> Months -> Days -> Events
     _this.fillEventsObject();
@@ -268,6 +268,7 @@ Site.Programacion = {
       var yearContent = document.createElement('h3');
       // fill with year
       yearContent.innerText = year.year;
+      yearContent.classList.add('font-averta');
 
       // add Year row to HTML
       scheduleHTML += _this.makeEventsRow(
@@ -286,6 +287,7 @@ Site.Programacion = {
         var monthContent = document.createElement('h3');
         // fill with month
         monthContent.innerText = month.month;
+        monthContent.classList.add('font-averta');
 
         // make Month row
         _this.makeEventsRow(
@@ -301,6 +303,7 @@ Site.Programacion = {
           var dayContent = document.createElement('h3');
           // fill with day
           dayContent.innerText = day.day;
+          dayContent.classList.add('font-averta');
 
           // make Day row
           _this.makeEventsRow(
@@ -317,7 +320,7 @@ Site.Programacion = {
             // set element element class
             eventContent.className = 'programacion-event';
             // fill with event info
-            eventContent.innerHTML = '<div class="programacion-event-hour">' + eventObj.hour + '</div><div class="programacion-event-info"><h2>' + eventObj.title + '</h2>' + eventObj.content;
+            eventContent.innerHTML = '<div class="programacion-event-hour font-averta">' + eventObj.hour + '</div><div class="programacion-event-info"><h2 class="font-aileron-semibold">' + eventObj.title + '</h2>' + eventObj.content;
 
             // make Event row
             _this.makeEventsRow(
