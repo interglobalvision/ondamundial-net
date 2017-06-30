@@ -10,6 +10,10 @@ get_header();
 
     <section id="page-programacion" class="page-overlay">
       <div class="container">
+        <div class="grid-row">
+          <div id="programacion-container" class="grid-item item-s-12 item-m-10 offset-m-1">
+          </div>
+        </div>
       </div>
     </section>
 
