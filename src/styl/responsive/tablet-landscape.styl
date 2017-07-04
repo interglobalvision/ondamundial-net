@@ -46,11 +46,12 @@ $header-height = 178px
 .desktop-page-close
   position: relative
   width: $margin-small
-  height: $margin-small * 1.3
+  //height: $margin-small * 1.3
   display: inline-block
-  margin: 0 $margin-tiny ($margin-small * -.3)
+  margin: -5px $margin-tiny ($margin-small * -.3)
   opacity: 0
   transition: opacity $transition-duration
+  pointer-events: none
   svg
     width: 100%
     height: 100%

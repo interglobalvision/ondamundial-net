@@ -5,10 +5,6 @@ $header-height = 144px
 #site-logo
   width: 40px
 
-.overlay-active
-  #site-title-holder
-    display: initial
-
 #mobile-menu
   top: $header-height
 
@@ -22,6 +18,9 @@ $header-height = 144px
       transform: translateY(7px) rotate(45deg)
     &::after
       transform: translateY(-7px) rotate(-45deg)
+
+  #site-title-holder
+    width: auto
 
 #desktop-nav-holder
   flex-grow: 1
