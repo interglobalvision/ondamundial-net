@@ -248,15 +248,37 @@ a.social-icon-holder
   position: absolute
   top: 0
   width: 100%
-  min-height: 100vh
   opacity: 0
   transition: opacity $transition-duration
   padding-top: $header-height + $margin-basic
   pointer-events: none
-  &.page-active
+  height: 0
+  overflow: hidden
+  &.page-active, &.active
     pointer-events: all
     opacity: 1
+    height: auto
+    min-height: 100vh
+    overflow: auto
 
-@media screen and (orientation: landscape)
-  .page-overlay
-    padding-top: $header-height
+// ******************************************************
+
+// PROGRAMACION
+
+.programacion-row
+  font-size: $font-size-mid
+  h3
+    border-bottom: 2px solid $color-black
+    padding-bottom: $margin-micro
+  .programacion-row
+    padding: $margin-micro 0 0
+
+.programacion-event
+  display: flex
+  flex-direction: row
+
+.programacion-event-info
+  flex-grow: 1
+  padding-left: $margin-small
+  p
+    font-size: $font-size-basic

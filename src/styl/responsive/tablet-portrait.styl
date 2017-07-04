@@ -1,13 +1,9 @@
-$header-height = 140px
+$header-height = 144px
 
 // HEADER
 
 #site-logo
   width: 40px
-
-.overlay-active
-  #site-title-holder
-    display: initial
 
 #mobile-menu
   top: $header-height
@@ -23,6 +19,9 @@ $header-height = 140px
     &::after
       transform: translateY(-7px) rotate(-45deg)
 
+  #site-title-holder
+    width: auto
+
 #desktop-nav-holder
   flex-grow: 1
 
@@ -31,3 +30,24 @@ $header-height = 140px
 
 .player-icon
   height: 30px
+
+.page-overlay
+  padding-top: $header-height + $margin-basic
+  p
+    max-width: 750px
+
+// ******************************************************
+
+// PROGRAMACION
+
+.programacion-row
+  font-size: $font-size-mid
+  h3
+    padding-bottom: $margin-micro
+  .programacion-row
+    padding: $margin-micro 0 0 $margin-small
+
+.programacion-event-info
+  padding-left: $margin-small
+  p
+    font-size: $font-size-basic

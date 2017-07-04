@@ -1,3 +1,4 @@
+$header-height = 178px
 
 // ******************************************************
 
@@ -23,6 +24,11 @@
           svg
             stroke: $color-black
 
+  .page-overlay
+    padding-top: $header-height + $margin-basic
+    p
+      max-width: 850px
+
 // ******************************************************
 
 // HEADER
@@ -40,11 +46,11 @@
 .desktop-page-close
   position: relative
   width: $margin-small
-  height: $margin-small
   display: inline-block
-  margin: 0 $margin-tiny ($margin-small * -.3)
+  margin: -7px $margin-tiny ($margin-small * -.3)
   opacity: 0
   transition: opacity $transition-duration
+  pointer-events: none
   svg
     width: 100%
     height: 100%
@@ -52,3 +58,17 @@
     fill: none
 
 // ******************************************************
+
+// PROGRAMACION
+
+.programacion-row
+  font-size: $font-size-mid
+  h3
+    padding-bottom: $margin-micro
+  .programacion-row
+    padding: $margin-micro 0 0 $margin-small
+
+.programacion-event-info
+  padding-left: $margin-small
+  p
+    font-size: $font-size-basic
