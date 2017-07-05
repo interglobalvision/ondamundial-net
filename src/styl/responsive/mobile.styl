@@ -39,7 +39,7 @@ body
   top: 0
   left: 0
   z-index: 0
-  filter: saturate(0)
+  //filter: saturate(0)
   mix-blend-mode: difference
   pointer-events: none
 
@@ -53,6 +53,28 @@ body
       fill: $color-black
     *::before
       border-top-color: $color-black
+
+$earth-diameter = 30vw
+
+#earth-flat
+  position: fixed
+  width: $earth-diameter
+  height: $earth-diameter
+  top: 50%
+  left: 50%
+  margin-top: ($earth-diameter / 2) - $earth-diameter
+  margin-left: ($earth-diameter / 2) - $earth-diameter
+  border-radius: 50%
+  background-image: url(../img/earth_texture.jpg)
+  background-size: ($earth-diameter * 2.5) + ($earth-diameter * .05)
+  background-position: center
+  animation: rotate-earth 30s infinite linear
+
+@keyframes rotate-earth
+  0%
+    background-position: 0px 50%
+  100%
+    background-position: (($earth-diameter * 2.5) + ($earth-diameter * .05)) 50%
 
 // HEADER
 
