@@ -378,7 +378,6 @@ Site.Earth = {
 
   canHandleThree: function() {
     var _this = this;
-    return false;
 
     // init MobileDetect
     var md = new MobileDetect(window.navigator.userAgent);
