@@ -1,5 +1,7 @@
 /* jshint browser: true, devel: true, indent: 2, curly: true, eqeqeq: true, futurehostile: true, latedef: true, undef: true, unused: true */
-/* global $, jQuery, document, Site, Modernizr, moment, WP, THREE*/
+/* global $, jQuery, document, Site, Modernizr, moment, WP, THREE, MobileDetect*/
+
+
 
 Site = {
   mobileThreshold: 601,
@@ -11,9 +13,9 @@ Site = {
     });
 
     $(document).ready(function () {
-      Site.Player.init();
-      Site.Overlay.init();
       Site.Earth.init();
+      Site.Overlay.init();
+      Site.Player.init();
       Site.Programacion.init();
     });
 
@@ -147,7 +149,7 @@ Site.Overlay = {
     // set the <li> parent of the target <a>
     // as the active nav item. this displays
     // in the header as our page title
-    _this.activeDesktopNavItem = document.getElementById('desktop-nav-' + pageName);;
+    _this.activeDesktopNavItem = document.getElementById('desktop-nav-' + pageName);
     _this.activeDesktopNavItem.classList.add('active');
 
     // if the mobile menu is active, we know this
@@ -366,6 +368,62 @@ Site.Earth = {
   init: function() {
     var _this = this;
 
+    if (_this.canHandleThree()) {
+      _this.initThreeEarth();
+    } else {
+      _this.initFlatEarth();
+    }
+
+  },
+
+  canHandleThree: function() {
+    var _this = this;
+    return false;
+
+    // init MobileDetect
+    var md = new MobileDetect(window.navigator.userAgent);
+
+    if (md.is('iOS') || md.is('Safari')) {
+      return false;
+    }
+
+    return true;
+
+  },
+
+  initFlatEarth: function() {
+    var _this = this;
+
+    _this.flatEarth = document.getElementById('earth-flat');
+
+    _this.flatEarth.classList.remove('u-hidden');
+
+    _this.animateFlatEarth = _this.animateFlatEarth.bind(_this);
+
+    _this.animateFlatEarth();
+
+  },
+
+  animateFlatEarth: function() {
+    var _this = this;
+
+    window.requestAnimationFrame(_this.animateFlatEarth);
+
+    // Get analyser audio value
+    // The value goes from 0 to 1
+    var audioValue = Site.Player.getAnalyserValue();
+
+    audioValue *= 3;
+
+    audioValue = 1 + audioValue;
+
+    _this.flatEarth.style.transform = 'scale(' + audioValue + ')';
+
+  },
+
+  initThreeEarth: function() {
+    var _this = this;
+
     // Bind Animate function
     _this.animate = _this.animate.bind(_this);
 
@@ -447,7 +505,7 @@ Site.Earth = {
     var _this = this;
 
     _this.camera.lookAt( _this.scene.position );
-    _this.group.rotation.y -= 0.005;
+    _this.group.rotation.y += 0.005;
 
     // Get analyser audio value
     // The value goes from 0 to 1
@@ -693,7 +751,7 @@ Site.Player = {
 
     // If the audioContext is not defined we return 128 which is equal to no-sound
     if (_this.audioContext === undefined) {
-      return 128;
+      return 0;
     }
 
     // Pass anlyser data to _this.analyserData
@@ -885,7 +943,7 @@ Site.EventChecker = {
   setBackground: function(images) {
     var _this = this;
 
-    var viewportLargestDimension = _this.viewporLargestDimension.size
+    var viewportLargestDimension = _this.viewporLargestDimension.size;
 
     // We set largest image as fallback (last in the array)
     var background = images[images.length - 1].url;
