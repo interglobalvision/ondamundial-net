@@ -382,7 +382,13 @@ Site.Earth = {
     // init MobileDetect
     var md = new MobileDetect(window.navigator.userAgent);
 
-    if (md.is('iOS') || md.is('Safari')) {
+    // Check for iOS
+    if (md.is('iOS')) {
+      return false;
+    }
+
+    // Check for Safari
+    if (navigator.userAgent.search("Safari") >= 0 && navigator.userAgent.search("Chrome") < 0) {
       return false;
     }
 
