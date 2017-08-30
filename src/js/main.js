@@ -531,9 +531,11 @@ Site.Earth = {
   onResize: function() {
     var _this = this;
 
-    _this.camera.aspect = document.body.clientWidth / window.innerHeight;
-    _this.camera.updateProjectionMatrix();
-    _this.renderer.setSize( document.body.clientWidth, window.innerHeight );
+    if (typeof _this.camera !== 'undefined') {
+      _this.camera.aspect = document.body.clientWidth / window.innerHeight;
+      _this.camera.updateProjectionMatrix();
+      _this.renderer.setSize( document.body.clientWidth, window.innerHeight );
+    }
   }
 };
 
