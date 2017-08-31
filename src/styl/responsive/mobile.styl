@@ -1,5 +1,8 @@
 $header-height = 106px
 
+$earth-diameter = 30vw
+$earth-transition = 100ms
+
 // ******************************************************
 
 // BASIC
@@ -54,8 +57,6 @@ body
     *::before
       border-top-color: $color-black
 
-$earth-diameter = 30vw
-
 #earth-flat
   position: fixed
   width: $earth-diameter
@@ -69,6 +70,7 @@ $earth-diameter = 30vw
   background-size: ($earth-diameter * 2.5) + ($earth-diameter * .05)
   background-position: center
   animation: rotate-earth 30s infinite linear
+  transition: transform $earth-transition cubic-bezier(0.18, 0.01, 0.88, 1)
 
 @keyframes rotate-earth
   0%
