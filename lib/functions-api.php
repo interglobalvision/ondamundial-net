@@ -2,6 +2,7 @@
 
 function current_event_call($data) {
   $current_event_id = IGV_get_option('_igv_site_options', '_igv_radio_evento_current');
+  $marquee_text = IGV_get_option('_igv_site_options', '_igv_marquee_append_text');
 
   // Check if no event is selected
   if (empty($current_event_id)) {
@@ -20,7 +21,8 @@ function current_event_call($data) {
   // Make the response array
   $response = array(
     'title' => $current_event->post_title,
-    'featured_thumbnails' => $featured_thumbnail_sizes,
+    'featuredThumbnails' => $featured_thumbnail_sizes,
+    'marqueeText' => $marquee_text,
   );
 
   return $response;
