@@ -58,12 +58,21 @@ $metabox = array(
   		'type' => 'text_url',
   		'protocols' => array('http', 'https'), // Array of allowed protocols
   	),
+
+    // COPY
     array(
-  		'name' => esc_html__( 'Archivo Mixcloud URL', 'cmb2' ),
-  		'id'   => $prefix . 'mixcloud_url',
-  		'type' => 'text_url',
-  		'protocols' => array('http', 'https'), // Array of allowed protocols
-  	),
+      'name' => __( 'Copy Text', 'cmb2' ),
+      'desc' => __( 'Copy texts used throughout  the site', 'cmb2' ),
+      'id'   => $prefix . 'copy_text_title',
+      'type' => 'title',
+    ),
+    array(
+      'name' => __( 'Nothing Scheduled', 'IGV' ),
+      'desc' => __( 'Text displayed in Programación when the schedule is empty', 'IGV' ),
+      'id'   => $prefix . 'empty_schedule_text',
+      'type' => 'text',
+    ),
+
 
     // SOCIAL MEDIA
 
@@ -73,6 +82,12 @@ $metabox = array(
       'id'   => $prefix . 'socialmedia_title',
       'type' => 'title',
     ),
+    array(
+  		'name' => esc_html__( 'Archivo Mixcloud URL', 'cmb2' ),
+  		'id'   => $prefix . 'mixcloud_url',
+  		'type' => 'text_url',
+  		'protocols' => array('http', 'https'), // Array of allowed protocols
+  	),
     array(
       'name' => __( 'Facebook Page URL', 'IGV' ),
       'desc' => __( '', 'IGV' ),
