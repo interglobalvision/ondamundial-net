@@ -45,7 +45,7 @@
         <div id="header-main" class="padding-top-small grid-item flex-grow grid-row align-items-center no-gutter">
 
           <div id="site-title-holder" class="grid-item">
-            <h1 class="font-size-large font-averta"><a href="<?php echo home_url(); ?>"><?php bloginfo('name'); ?></a></h1>
+            <h1 class="font-size-large font-averta"><?php bloginfo('name'); ?></h1>
           </div>
 
           <div id="desktop-nav-holder" class="grid-item">
