@@ -1,5 +1,6 @@
 <?php
 get_header();
+$empty_schedule_text = IGV_get_option('_igv_site_options', '_igv_empty_schedule_text');
 ?>
 
 <main id="main-content">
@@ -12,6 +13,7 @@ get_header();
       <div class="container">
         <div class="grid-row">
           <div id="programacion-container" class="grid-item item-s-12 item-m-10 offset-m-1">
+          <h1 id="nothing-scheduled-text" class="font-averta"><?php echo empty($empty_schedule_text) ? 'Nada programado todavia' : $empty_schedule_text; ?></h1>
           </div>
         </div>
       </div>
