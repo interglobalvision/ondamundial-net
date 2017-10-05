@@ -394,6 +394,9 @@ Site.Earth = {
 
     _this.animateFlatEarth();
 
+    // Bind click
+    _this.flatEarth.addEventListener('click', _this.handleOnClick.bind(_this));
+
   },
 
   animateFlatEarth: function() {
