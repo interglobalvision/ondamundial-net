@@ -204,7 +204,7 @@ Site.Programacion = {
     _this.programacionContainer =  document.getElementById('programacion-container');
 
     // Check is theres events scheduled
-    if (_this.eventsPosts.length > 0) {
+    if (_this.eventsPosts.length) {
 
       // Loop through Years -> Months -> Days -> Events
       _this.fillEventsObject();
@@ -217,52 +217,50 @@ Site.Programacion = {
   fillEventsObject: function() {
     var _this = this;
 
-    if (_this.eventsPosts.length) {
-      // Iterate thru each event
-      _this.eventsPosts.forEach(function(scheduleEvent) {
-        // Generate moment from timestamp in user local timezone
-        var eventMoment = moment.unix(parseInt(scheduleEvent.timestamp));
+    // Iterate thru each event
+    _this.eventsPosts.forEach(function(scheduleEvent) {
+      // Generate moment from timestamp in user local timezone
+      var eventMoment = moment.unix(parseInt(scheduleEvent.timestamp));
 
-        // Parse date/time data
-        var year = eventMoment.format('YYYY');
-        var month = eventMoment.format('MMMM');
-        var monthNum = eventMoment.format('M');
-        var day = eventMoment.format('dddd Do');
-        var dayNum = eventMoment.format('D');
-        var hour = eventMoment.format('H:mm');
+      // Parse date/time data
+      var year = eventMoment.format('YYYY');
+      var month = eventMoment.format('MMMM');
+      var monthNum = eventMoment.format('M');
+      var day = eventMoment.format('dddd Do');
+      var dayNum = eventMoment.format('D');
+      var hour = eventMoment.format('H:mm');
 
-        // Create this Year object if missing in schedule array
-        if (_this.scheduleArray[year] === undefined) {
-          _this.scheduleArray[year] = {
-            year: year,
-            months: []
-          };
-        }
+      // Create this Year object if missing in schedule array
+      if (_this.scheduleArray[year] === undefined) {
+        _this.scheduleArray[year] = {
+          year: year,
+          months: []
+        };
+      }
 
-        // Create this Month object if missing in Year
-        if (_this.scheduleArray[year].months[monthNum] === undefined) {
-          _this.scheduleArray[year].months[monthNum] = {
-            month: month,
-            days: []
-          };
-        }
+      // Create this Month object if missing in Year
+      if (_this.scheduleArray[year].months[monthNum] === undefined) {
+        _this.scheduleArray[year].months[monthNum] = {
+          month: month,
+          days: []
+        };
+      }
 
-        // Create this Day object if missing in Month
-        if (_this.scheduleArray[year].months[monthNum].days[dayNum] === undefined) {
-          _this.scheduleArray[year].months[monthNum].days[dayNum] = {
-            day: day,
-            events: []
-          };
-        }
+      // Create this Day object if missing in Month
+      if (_this.scheduleArray[year].months[monthNum].days[dayNum] === undefined) {
+        _this.scheduleArray[year].months[monthNum].days[dayNum] = {
+          day: day,
+          events: []
+        };
+      }
 
-        // Push Event object to events array
-        _this.scheduleArray[year].months[monthNum].days[dayNum].events.push({
-          hour: hour,
-          title: scheduleEvent.title,
-          content: scheduleEvent.content
-        });
+      // Push Event object to events array
+      _this.scheduleArray[year].months[monthNum].days[dayNum].events.push({
+        hour: hour,
+        title: scheduleEvent.title,
+        content: scheduleEvent.content
       });
-    }
+    });
   },
 
   addEventsToDom: function() {
