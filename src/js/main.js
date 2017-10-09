@@ -716,7 +716,7 @@ Site.Player = {
     var marqueeWidth = _this.marqueeHolder.offsetWidth;
 
     // Check if event title is available
-    if (typeof Site.EventChecker.eventData.title !== 'undefined') {
+    if (Site.EventChecker.eventData.title) {
       // Append event title to the marquee text
       marqueeText = Site.EventChecker.eventData.title + ': ' + marqueeText;
     }
