@@ -712,6 +712,9 @@ Site.Player = {
   buildMarqueeContent: function(marqueeText) {
     var _this = this;
 
+    // Default value for marqueeText
+    marqueeText = typeof marqueeText === 'undefined' ? '' : marqueeText;
+
     // get width of marquee holder
     var marqueeWidth = _this.marqueeHolder.offsetWidth;
 
@@ -810,11 +813,11 @@ Site.Player = {
     // Update marquee status
     _this.streamStatusText.innerHTML = 'Sigue: ';
 
-    // Update the marquee text
-    _this.nowPlayingText.innerHTML = 'the upcoming show that has to be requested thru ajax';
-
     // Pause the player
     _this.pause();
+
+    // Update marquee text
+    _this.buildMarqueeContent();
   },
 
   play: function() {
