@@ -203,11 +203,15 @@ Site.Programacion = {
     // Set programacion container
     _this.programacionContainer =  document.getElementById('programacion-container');
 
-    // Loop through Years -> Months -> Days -> Events
-    _this.fillEventsObject();
+    // Check is theres events scheduled
+    if (_this.eventsPosts.length > 0) {
 
-    // Add schedule to DOM
-    _this.addEventsToDom();
+      // Loop through Years -> Months -> Days -> Events
+      _this.fillEventsObject();
+
+      // Add schedule to DOM
+      _this.addEventsToDom();
+    }
   },
 
   fillEventsObject: function() {
@@ -265,6 +269,9 @@ Site.Programacion = {
 
     // Make Years
     _this.scheduleArray.forEach(function(year, yearIndex) {
+
+      // Clear container (aka remove the empty schedule text)
+      _this.programacionContainer.innerHTML = '';
 
       // create content element
       var yearContent = document.createElement('h3');
