@@ -2,11 +2,7 @@
 
 function current_event_call($data) {
   $current_event_id = IGV_get_option('_igv_site_options', '_igv_radio_evento_current');
-
-  // Check if no event is selected
-  if (empty($current_event_id)) {
-    return false;
-  }
+  $marquee_text = IGV_get_option('_igv_site_options', '_igv_marquee_append_text');
 
   // Get selected event data
   $current_event = get_post($current_event_id);
@@ -17,10 +13,15 @@ function current_event_call($data) {
   // Get event's thumbnail in diff sizes
   $featured_thumbnail_sizes = get_attachment_in_sizes($current_event_thumbnail_id);
 
+  //
+  $title = !empty($current_event) ? $current_event->post_title : false;
+  $featured_thumbnails = $featured_thumbnail_sizes ? $featured_thumbnail_sizes : false;
+
   // Make the response array
   $response = array(
-    'title' => $current_event->post_title,
-    'featured_thumbnails' => $featured_thumbnail_sizes,
+    'title' => $title,
+    'featuredThumbnails' => $featured_thumbnails,
+    'marqueeText' => $marquee_text,
   );
 
   return $response;

@@ -47,6 +47,13 @@ $metabox = array(
       )
     ),
     array(
+      'name' => __( 'Texto en marquee', 'IGV' ),
+      'desc' => __( 'Este texto aparece al final del marquee', 'IGV' ),
+      'id'   => $prefix . 'marquee_append_text',
+      'type' => 'text',
+    ),
+
+    array(
       'name' => __( 'Imagen fallback del evento', 'IGV' ),
       'desc' => __( 'Si el evento seleccionado no tiene imagen se usara esta por defecto', 'IGV' ),
       'id'   => $prefix . 'event_fallback_image',
@@ -72,7 +79,6 @@ $metabox = array(
       'id'   => $prefix . 'empty_schedule_text',
       'type' => 'text',
     ),
-
 
     // SOCIAL MEDIA
 

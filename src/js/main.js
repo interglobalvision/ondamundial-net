@@ -721,6 +721,12 @@ Site.Player = {
       marqueeText = Site.EventChecker.eventData.title + ': ' + marqueeText;
     }
 
+    // Check if marquee append text is available
+    if (Site.EventChecker.eventData.marqueeText) {
+      // Append  marquee text
+      marqueeText +=  ' ' + Site.EventChecker.eventData.marqueeText;
+    }
+
     // assemble single marquee text element
     var marqueeTextElem = '<span class="now-playing-text">' + marqueeText + '</span>';
 
@@ -933,16 +939,16 @@ Site.EventChecker = {
     $.getJSON(_this.eventUrl, function(data) {
       if (data) {
 
+        // Save event data
+        _this.eventData = data;
+
         // Check if new data is different from current one
         if (_this.eventData['title'] !== data['title']) {
 
-          // Save event data
-          _this.eventData = data;
-
           // Check if data comes with thumbanils
-          if (data.featured_thumbnails) {
+          if (data.featuredThumbnails) {
             // Set background image
-            _this.setBackground(data.featured_thumbnails);
+            _this.setBackground(data.featuredThumbnails);
 
           } else {
             // Check if we have a fallback image
@@ -1017,7 +1023,7 @@ Site.EventChecker = {
     // If event data available
     if(_this.eventData) {
       // Set background
-      _this.setBackground(_this.eventData.featured_thumbnails);
+      _this.setBackground(_this.eventData.featuredThumbnails);
     }
   }
 };
