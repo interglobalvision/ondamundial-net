@@ -38,10 +38,9 @@ function get_events_object() {
         'content' => apply_filters('the_content', $post->post_content),
       );
     }
-    return json_encode($events_object);
-  } else {
-    return null;
   }
+
+  return json_encode($events_object);
 }
 
 function get_attachment_in_sizes($attachment_id) {
