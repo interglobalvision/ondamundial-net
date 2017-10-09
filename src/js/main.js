@@ -204,7 +204,7 @@ Site.Programacion = {
     _this.programacionContainer =  document.getElementById('programacion-container');
 
     // Check is theres events scheduled
-    if (_this.eventsPosts.length > 0) {
+    if (_this.eventsPosts.length) {
 
       // Loop through Years -> Months -> Days -> Events
       _this.fillEventsObject();
