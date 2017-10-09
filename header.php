@@ -62,7 +62,7 @@
       if (!empty($mixcloud_url)) {
     ?>
                 <li class="grid-item no-gutter grid-row justify-center">
-                  <a class="page-nav-item u-inline-block font-aileron-semibold" href="<?php echo $mixcloud_url; ?>">Archivo</a>
+                  <a class="page-nav-item u-inline-block font-aileron-semibold" href="<?php echo $mixcloud_url; ?>" target="_blank" rel="noopener">Archivo</a>
                   <span class="desktop-page-close u-inline-block"></span>
                 </li>
     <?php
