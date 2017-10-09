@@ -375,32 +375,19 @@ Site.Earth = {
   init: function() {
     var _this = this;
 
-    if (_this.canHandleThree()) {
-      _this.initThreeEarth();
-    } else {
+    if (_this.isSafari()) {
       _this.initFlatEarth();
+    } else {
+      _this.initThreeEarth();
     }
 
   },
 
-  canHandleThree: function() {
-    var _this = this;
-
-    // init MobileDetect
-    var md = new MobileDetect(window.navigator.userAgent);
-
-    // Check for iOS
-    if (md.is('iOS')) {
-      return false;
-    }
-
-    // Check for Safari
-    if (navigator.userAgent.search("Safari") >= 0 && navigator.userAgent.search("Chrome") < 0) {
-      return false;
-    }
-
-    return true;
-
+  isSafari: function() {
+    return !!navigator.userAgent.match(/safari/i)
+      && !navigator.userAgent.match(/chrome/i)
+      && typeof document.body.style.webkitFilter !== "undefined"
+      && !window.chrome;
   },
 
   initFlatEarth: function() {
@@ -413,6 +400,9 @@ Site.Earth = {
     _this.animateFlatEarth = _this.animateFlatEarth.bind(_this);
 
     _this.animateFlatEarth();
+
+    // Bind click
+    _this.flatEarth.addEventListener('click', _this.handleOnClick.bind(_this));
 
   },
 
@@ -471,6 +461,15 @@ Site.Earth = {
 
     // Animate
     _this.animate();
+
+    // Bind click
+    _this.container.addEventListener('click', _this.handleOnClick.bind(_this));
+  },
+
+  handleOnClick: function() {
+    var _this = this;
+
+    Site.Player.togglePlay();
   },
 
   renderCanvas: function() {
@@ -604,11 +603,12 @@ Site.StreamChecker = {
 
 Site.Player = {
   neverPlayed: true,
-  fadeTime:  2000,
+  fadeTime:  100,
   fftSize: 32,
   freqBand: 1,
   streamUrl: 'http://streaming.radio.co/s0b5e9c02c/listen',
   streamData: {},
+  isPlaying: false,
   init: function() {
     var _this = this;
 
@@ -829,6 +829,8 @@ Site.Player = {
       // Add `playing` class to player container
       _this.playerContainer.classList.add('playing');
 
+      _this.isPlaying = true;
+
       _this.neverPlayed = false;
 
       // Fade in the volume
@@ -859,6 +861,18 @@ Site.Player = {
 
     // Remove `playing` class from the player container
     _this.playerContainer.classList.remove('playing');
+
+    _this.isPlaying = false;
+  },
+
+  togglePlay: function() {
+    var _this = this;
+
+    if (_this.isPlaying) {
+      _this.pause();
+    } else {
+      _this.play();
+    }
   },
 };
 

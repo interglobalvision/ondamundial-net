@@ -41,10 +41,9 @@ body
   position: fixed
   top: 0
   left: 0
-  z-index: 0
+  z-index: 250
   //filter: saturate(0)
   mix-blend-mode: difference
-  pointer-events: none
 
 .overlay-active
   #overlay
@@ -56,6 +55,9 @@ body
       fill: $color-black
     *::before
       border-top-color: $color-black
+
+  #earth-container
+    z-index: 100
 
 #earth-flat
   position: fixed
