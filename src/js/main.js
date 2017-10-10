@@ -942,11 +942,11 @@ Site.EventChecker = {
     $.getJSON(_this.eventUrl, function(data) {
       if (data) {
 
-        // Save event data
-        _this.eventData = data;
-
         // Check if new data is different from current one
-        if (_this.eventData['title'] !== data['title']) {
+        if (_this.eventData['title'] !== data['title'] || _this.eventData['marqueeText'] !== data['marqueeText']) {
+
+          // Save event data
+          _this.eventData = data;
 
           // Check if data comes with thumbanils
           if (data.featuredThumbnails) {
@@ -980,25 +980,30 @@ Site.EventChecker = {
   setBackground: function(images) {
     var _this = this;
 
-    var viewportLargestDimension = _this.viewporLargestDimension.size;
+    if(typeof images !== 'undefined') {
+      var viewportLargestDimension = _this.viewporLargestDimension.size;
 
-    // We set largest image as fallback (last in the array)
-    var background = images[images.length - 1].url;
+      // We set largest image as fallback (last in the array)
+      var background = images[images.length - 1].url;
 
-    // Iterate thru images to find the smallest image capable to fill the screen
-    for(var i = 0; i < images.length; i++) {
+      // Iterate thru images to find the smallest image capable to fill the screen
+      for(var i = 0; i < images.length; i++) {
 
-      var imageDimension = images[i][_this.viewporLargestDimension.dimension];
+        var imageDimension = images[i][_this.viewporLargestDimension.dimension];
 
-      // Check the viewport largest dimension against the image dimension
-      if (imageDimension > viewportLargestDimension) {
-        background = images[i].url;
-        break;
+        // Check the viewport largest dimension against the image dimension
+        if (imageDimension > viewportLargestDimension) {
+          background = images[i].url;
+          break;
+        }
       }
-    }
 
-    // Set image as background-image in the body
-    document.body.style.backgroundImage = 'url(' + background + ')';
+      // Set image as background-image in the body
+      document.body.style.backgroundImage = 'url(' + background + ')';
+    } else {
+      // Remove background image
+      document.body.style.backgroundImage = '';
+    }
   },
 
   // Clear event stuff: background, title, data
