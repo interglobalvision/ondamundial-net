@@ -28,21 +28,10 @@ $metabox = array(
       'options' => get_post_objects(
         array(
           'post_type' => 'evento',
+          'numberposts' => -1,
           'meta_key' => '_igv_evento_start',
           'order' => 'ASC',
           'orderby' => 'meta_value',
-          'meta_query' => array(
-            array(
-              'key'     => '_igv_evento_start',
-        			'value'   => current_time('timestamp') - (60 * 60 * 6), // UTC -5, 6 hours ago
-        			'compare' => '>',
-            ),
-            array(
-              'key'     => '_igv_evento_start',
-        			'value'   => current_time('timestamp') + (60 * 60 * 24), // UTC -5, 24 hours later
-        			'compare' => '<',
-            )
-          )
         )
       )
     ),
