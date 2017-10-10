@@ -13,7 +13,7 @@ function current_event_call($data) {
   // Get event's thumbnail in diff sizes
   $featured_thumbnail_sizes = get_attachment_in_sizes($current_event_thumbnail_id);
 
-  //
+  // Get Title and Feat. Thumbnails
   $title = !empty($current_event) ? $current_event->post_title : false;
   $featured_thumbnails = $featured_thumbnail_sizes ? $featured_thumbnail_sizes : false;
 
