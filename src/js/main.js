@@ -1,7 +1,112 @@
 /* jshint browser: true, devel: true, indent: 2, curly: true, eqeqeq: true, futurehostile: true, latedef: true, undef: true, unused: true */
 /* global $, jQuery, document, Site, Modernizr, moment, WP, THREE, MobileDetect*/
 
+$(document).ready(function () {
+  Player = new Vue({
+    el: '#player-container',
 
+    data: {
+      streamUrl: 'http://streaming.radio.co/s0b5e9c02c/listen',
+      isStreaming: false,
+      isPlaying: false,
+      message: 'Hello Vue!',
+      stream: {},
+      event: {},
+      fftSize: 32,
+      freqBand: 1,
+    },
+
+    methods: {
+      checkStatus: function() {
+        $.get('https://public.radio.co/stations/s0b5e9c02c/status', function(res) {
+          this.stream = res;
+
+          if(!this.isStreaming && this.stream.status === 'online') {
+            this.isStreaming = true;
+            this.initPlayer();
+          }
+
+        }.bind(this));
+      },
+
+      checkEvent: function() {
+        $.get(WP.siteUrl + '/wp-json/igv/current-event', function(res) {
+          this.event = res;
+        }.bind(this));
+      },
+
+      initPlayer: function() {
+
+        // Create audio source from <audio>
+        this.audio = new Howl({
+          src: this.streamUrl,
+          html5: true,
+          format: ['mp3'],
+        });
+
+        // Bind Events
+        // On load
+        this.audio.on('load', function(){
+          this.audio.play();
+        }.bind(this));
+
+        // On play
+        this.audio.on('play', function(){
+          this.isPlaying = true;
+        }.bind(this));
+
+        // On End
+        this.audio.on('end', function(){
+          this.isPlaying = false;
+        }.bind(this));
+
+        // On Mute
+        this.audio.on('volume', function(event){
+          this.isPlaying = Number(this.audio.volume());
+        }.bind(this));
+
+
+        // this.audioSource = this.audio.ctx.createMediaElementSource(this.playerElement);
+
+        // Create analyser node
+        this.audioAnalyser = Howler.ctx.createAnalyser();
+
+        // Set analyser settings
+        this.audioAnalyser.fftSize = this.fftSize;
+
+        // this.audioAnalyser.minDecibels = -90;
+        // this.audioAnalyser.maxDecibels = -10;
+
+        this.audioAnalyser.smoothingTimeConstant = 1;
+
+        // Init the anaylser data array
+        this.analyserData = new Uint8Array(this.audioAnalyser.frequencyBinCount);
+
+        // Conect Source to Analyser
+        Howler.masterGain.connect(this.audioAnalyser);
+
+        // Conect Analyser to destination. connectin to destination triggers the audio
+        this.audioAnalyser.connect(Howler.ctx.destination);
+
+      },
+
+      toggleMute: function() {
+        var volume = this.isPlaying ? 0 : 1;
+        this.audio.volume(volume);
+      },
+    },
+
+    created: function () {
+      this.checkStatus();
+      this.checkEvent();
+
+      setInterval(function () {
+        this.checkStatus();
+        this.checkEvent();
+      }.bind(this), 2000);
+    }
+  });
+});
 
 Site = {
   mobileThreshold: 601,
@@ -1031,4 +1136,4 @@ Site.EventChecker = {
   }
 };
 
-Site.init();
+//Site.init();
