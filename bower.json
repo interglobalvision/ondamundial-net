@@ -18,9 +18,16 @@
     "lazysizes": "^2.0.4",
     "moment": "^2.18.1",
     "three.js": "threejs#*",
-    "mobile-detect": "hgoebl/mobile-detect.js#^1.3.6"
+    "mobile-detect": "hgoebl/mobile-detect.js#^1.3.6",
+    "vue": "^2.5.2",
+    "howler.js": "howler#^2.0.5"
   },
   "overrides": {
+    "vue": {
+      "main": [
+        "dist/vue.js"
+      ]
+    },
     "moment": {
       "main": [
         "moment.js",
