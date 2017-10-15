@@ -1,8 +1,4 @@
-<section id="player-container" :class="{ online: isStreaming, playing: isPlaying }">
-  {{message}}
-  {{stream.status}}
-  {{isPlaying ? 'Playing' : 'Not Playing'}}
-
+<section id="player-container" :class="{ online: isStreaming, playing: isPlaying }" class="margin-bottom-small blend-difference">
   <div class="container">
     <div id="player-row" class="grid-row align-items-center">
       <div id="player-control-holder" class="grid-item">
@@ -12,11 +8,17 @@
           <span id="pause-button" class="u-pointer" @click="toggleMute"><?php echo url_get_contents(get_template_directory_uri() . '/dist/img/player-pause.svg'); ?></span>
         </span>
       </div>
+
       <div id="player-status" class="grid-item grid-row flex-grow">
-        <span id="stream-status" class="grid-item font-averta font-size-large no-gutter"></span>
+        <span id="stream-status" class="grid-item font-averta font-size-large no-gutter" v-cloak>{{ isStreaming ? 'Ahora' : 'Sigue'}}:</span>
         <div id="now-playing-marquee-holder" class="grid-item flex-grow">
           <div id="now-playing-marquee" class="grid-column justify-center">
-            <span id="now-playing" class="font-size-mid"></span>
+            <span id="now-playing" class="font-size-mid">
+              <span class="now-playing-text-holder">
+                <span v-for="n in repeatMarquee" class="now-playing-text" v-cloak>{{marqueeText}}</span>
+              </span>
+            </span>
+
           </div>
           <div id="marquee-mask"></div>
         </div>

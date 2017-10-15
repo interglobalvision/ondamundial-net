@@ -14,6 +14,46 @@ $(document).ready(function () {
       event: {},
       fftSize: 32,
       freqBand: 1,
+      repeatMarquee: 1,
+    },
+
+    computed: {
+      marqueeText: function() {
+        var marqueeText =  typeof this.event.title === 'undefined' ? '' : this.event.title;
+
+        if(typeof this.stream.current_track !== 'undefined') {
+          marqueeText += ': ' + this.stream.current_track.title;
+        }
+
+        if(this.event.marqueeText) {
+          marqueeText += ' ' + this.event.marqueeText;
+        }
+
+        return marqueeText;
+
+      },
+
+      marqueeWidth: function() {
+      },
+
+
+    },
+
+    updated: function() {
+      var marqueeWidth  = document.getElementById('now-playing-marquee-holder').offsetWidth;
+      var nowPlayingWidth =  document.getElementById('now-playing').offsetWidth;
+
+      if(marqueeWidth * 3 > nowPlayingWidth) {
+        this.repeatMarquee += 1;
+      }
+
+    },
+
+    watch: {
+      marqueeText: function() {
+        this.repeatMarquee = 3;
+      },
+
     },
 
     methods: {
@@ -104,7 +144,8 @@ $(document).ready(function () {
         this.checkStatus();
         this.checkEvent();
       }.bind(this), 2000);
-    }
+    },
+
   });
 });
 
