@@ -79,6 +79,7 @@ $(document).ready(function () {
 
         // Create audio source from <audio>
         this.audio = new Howl({
+
           src: this.streamUrl,
           html5: true,
           format: ['mp3'],
@@ -128,11 +129,48 @@ $(document).ready(function () {
         // Conect Analyser to destination. connectin to destination triggers the audio
         this.audioAnalyser.connect(Howler.ctx.destination);
 
+        // Init the anaylser data array
+        this.analyserData = new Uint8Array(this.audioAnalyser.frequencyBinCount);
+
       },
 
       toggleMute: function() {
         var volume = this.isPlaying ? 0 : 1;
         this.audio.volume(volume);
+      },
+
+      getAnalyserValue: function() {
+
+        // If the audioContext is not defined we return 128 which is equal to no-sound
+        if (typeof this.audio === 'undefined') {
+          return 0;
+        }
+
+        // Pass anlyser data to _this.analyserData
+        this.audioAnalyser.getByteTimeDomainData(this.analyserData);
+
+        // Get analysis value
+        // Our return values here range from 0 - 256.
+        // Because it is a waveform, 0 and 256 are both full sound
+        // on the wave, and the midpoint 128 is full silence.
+        // We can think of it as a range from -1 - 1, with 128 at the 0 point.
+        var returnAnalysisValue = this.analyserData[this.freqBand];
+
+        // Here we invert values from 128 (silence) - 0 (sound), to become
+        // 0 (silence) - 128 (sound)
+        if (returnAnalysisValue < 128) {
+          returnAnalysisValue = 128 - returnAnalysisValue;
+          // or subtract 128 from values 128 - 256
+          // to get 0 (silence) - 128 (sound)
+        } else {
+          returnAnalysisValue -= 128;
+        }
+
+        // Make returnAnalysisValue be in the range of  0 - 1
+        returnAnalysisValue = returnAnalysisValue / 128;
+
+        return returnAnalysisValue;
+
       },
     },
 
@@ -1176,5 +1214,4 @@ Site.EventChecker = {
     }
   }
 };
-
 //Site.init();
