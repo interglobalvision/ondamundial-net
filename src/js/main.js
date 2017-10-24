@@ -942,11 +942,11 @@ Site.EventChecker = {
     $.getJSON(_this.eventUrl, function(data) {
       if (data) {
 
-        // Save event data
-        _this.eventData = data;
-
         // Check if new data is different from current one
         if (_this.eventData['title'] !== data['title']) {
+
+          // Save new event data
+          _this.eventData = data;
 
           // Check if data comes with thumbanils
           if (data.featuredThumbnails) {
