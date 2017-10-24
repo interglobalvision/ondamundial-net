@@ -945,8 +945,8 @@ Site.EventChecker = {
         // Check if new data is different from current one
         if (_this.eventData['title'] !== data['title']) {
 
-        // Save event data
-        _this.eventData = data;
+          // Save new event data
+          _this.eventData = data;
 
           // Check if data comes with thumbanils
           if (data.featuredThumbnails) {
